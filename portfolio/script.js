@@ -1,3 +1,47 @@
+// Custom cursor design
+const cursor = document.createElement('div');
+const cursorDot = document.createElement('div');
+cursor.classList.add('cursor');
+cursorDot.classList.add('cursor-dot');
+document.body.appendChild(cursor);
+document.body.appendChild(cursorDot);
+
+// Cursor movement
+document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    
+    // Dot follows with slight delay for smooth effect
+    setTimeout(() => {
+        cursorDot.style.left = e.clientX + 'px';
+        cursorDot.style.top = e.clientY + 'px';
+    }, 50);
+});
+
+// Cursor hover effects
+document.querySelectorAll('a, button, .skill, .project-card, .hamburger').forEach(element => {
+    element.addEventListener('mouseenter', () => {
+        cursor.classList.add('cursor-hover');
+        cursorDot.classList.add('cursor-dot-hover');
+    });
+    
+    element.addEventListener('mouseleave', () => {
+        cursor.classList.remove('cursor-hover');
+        cursorDot.classList.remove('cursor-dot-hover');
+    });
+});
+
+// Hide cursor when leaving window
+document.addEventListener('mouseleave', () => {
+    cursor.style.opacity = '0';
+    cursorDot.style.opacity = '0';
+});
+
+document.addEventListener('mouseenter', () => {
+    cursor.style.opacity = '1';
+    cursorDot.style.opacity = '1';
+});
+
 // Mobile menu toggle
 const hamburger = document.querySelector('.hamburger');
 const navLinks = document.querySelector('.nav-links');
@@ -114,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Add CSS animation for skill tags
+// Add CSS animations including cursor styles
 const style = document.createElement('style');
 style.textContent = `
     @keyframes fadeInUp {
@@ -125,6 +169,59 @@ style.textContent = `
         to {
             opacity: 1;
             transform: translateY(0);
+        }
+    }
+    
+    /* Custom Cursor Styles */
+    .cursor {
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #00ffff;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.2s ease, width 0.3s ease, height 0.3s ease;
+        transform: translate(-50%, -50%);
+        mix-blend-mode: difference;
+    }
+    
+    .cursor-dot {
+        position: fixed;
+        width: 6px;
+        height: 6px;
+        background: #00ffff;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
+        transform: translate(-50%, -50%);
+        mix-blend-mode: difference;
+    }
+    
+    .cursor-hover {
+        transform: translate(-50%, -50%) scale(1.5);
+        background: rgba(0, 255, 255, 0.1);
+        border-color: #ff00ff;
+    }
+    
+    .cursor-dot-hover {
+        transform: translate(-50%, -50%) scale(0.5);
+        background: #ff00ff;
+    }
+    
+    /* Hide default cursor */
+    * {
+        cursor: none !important;
+    }
+    
+    /* Show default cursor on touch devices */
+    @media (hover: none) and (pointer: coarse) {
+        .cursor, .cursor-dot {
+            display: none;
+        }
+        * {
+            cursor: auto !important;
         }
     }
 `;

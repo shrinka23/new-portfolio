@@ -106,7 +106,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     submitBtn.disabled = true;
     
     // Send email using EmailJS with your service ID
-    emailjs.send('service_0hmrn6h', 'YOUR_TEMPLATE_ID', {
+    emailjs.send('service_0hmrn6h', 'template_n9e7qfc', {
         from_name: formData.name,
         from_email: formData.email,
         subject: formData.subject,
@@ -351,3 +351,4 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+

@@ -87,7 +87,7 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Form submission handling
+// Form submission handling with EmailJS
 document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -99,16 +99,123 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
         message: document.getElementById('message').value
     };
     
-    // Here you would typically send the data to a server
-    // For now, we'll just log it and show an alert
-    console.log('Form submitted:', formData);
+    // Show loading state
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    submitBtn.disabled = true;
     
-    // Show success message
-    alert('Thank you for your message! I will get back to you soon.');
-    
-    // Reset form
-    this.reset();
+    // Send email using EmailJS with your service ID
+    emailjs.send('service_0hmrn6h', 'YOUR_TEMPLATE_ID', {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        to_email: 'qdarwinrhey@gmail.com',
+        reply_to: formData.email
+    })
+    .then(function(response) {
+        console.log('SUCCESS!', response.status, response.text);
+        
+        // Show success message
+        showNotification('Message sent successfully! I will get back to you soon.', 'success');
+        
+        // Reset form
+        document.getElementById('contactForm').reset();
+    })
+    .catch(function(error) {
+        console.log('FAILED...', error);
+        
+        // Show error message
+        showNotification('Failed to send message. Please try again or contact me directly at qdarwinrhey@gmail.com', 'error');
+    })
+    .finally(function() {
+        // Reset button state
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    });
 });
+
+// Notification function
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+        <span>${message}</span>
+        <button class="notification-close"><i class="fas fa-times"></i></button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Add styles if not already added
+    if (!document.querySelector('#notification-styles')) {
+        const styles = document.createElement('style');
+        styles.id = 'notification-styles';
+        styles.textContent = `
+            .notification {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 8px;
+                color: white;
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                max-width: 400px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+                backdrop-filter: blur(10px);
+            }
+            
+            .notification.success {
+                background: rgba(34, 197, 94, 0.9);
+                border-left: 4px solid #16a34a;
+            }
+            
+            .notification.error {
+                background: rgba(239, 68, 68, 0.9);
+                border-left: 4px solid #dc2626;
+            }
+            
+            .notification.show {
+                transform: translateX(0);
+            }
+            
+            .notification-close {
+                background: none;
+                border: none;
+                color: white;
+                cursor: pointer;
+                padding: 5px;
+                margin-left: auto;
+            }
+            
+            .notification i:first-child {
+                font-size: 1.2em;
+            }
+        `;
+        document.head.appendChild(styles);
+    }
+    
+    // Show notification
+    setTimeout(() => notification.classList.add('show'), 100);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 5000);
+    
+    // Close button event
+    notification.querySelector('.notification-close').addEventListener('click', () => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    });
+}
 
 // Add typing effect to hero text
 function typeWriter(element, text, speed = 50) {
@@ -128,6 +235,9 @@ function typeWriter(element, text, speed = 50) {
 
 // Initialize typing effect when page loads
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize EmailJS with your public key
+    emailjs.init("bY5lFTLcASLAHcMZp");
+    
     const heroTitle = document.querySelector('.hero-content h1');
     const originalText = heroTitle.textContent;
     
@@ -223,6 +333,21 @@ style.textContent = `
         * {
             cursor: auto !important;
         }
+    }
+    
+    /* Form loading state */
+    .btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+    
+    .fa-spinner {
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
     }
 `;
 document.head.appendChild(style);

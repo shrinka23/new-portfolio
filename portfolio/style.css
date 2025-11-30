@@ -498,6 +498,137 @@ header {
     font-size: 0.8rem;
     color: var(--light);
 }
+/* Analysis Section */
+.analysis {
+    background: rgba(10, 10, 26, 0.7);
+}
+
+.analysis-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 50px;
+    font-size: 1.2rem;
+    color: var(--light);
+}
+
+.looker-reports {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.report-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(0, 247, 255, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.report-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: 0 10px 30px rgba(0, 247, 255, 0.2);
+}
+
+.report-preview {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.report-image {
+    width: 100%;
+    height: 100%;
+}
+
+.report-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.report-card:hover .report-image img {
+    transform: scale(1.1);
+}
+
+.report-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(5, 5, 16, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.report-card:hover .report-overlay {
+    opacity: 1;
+}
+
+.report-info {
+    padding: 20px;
+}
+
+.report-info h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--primary);
+}
+
+.report-info p {
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    color: var(--light);
+}
+
+.report-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.report-tag {
+    padding: 5px 10px;
+    background: rgba(123, 0, 255, 0.2);
+    border: 1px solid rgba(123, 0, 255, 0.5);
+    border-radius: 3px;
+    font-size: 0.8rem;
+    color: var(--light);
+}
+
+.analysis-cta {
+    text-align: center;
+    padding: 30px;
+    background: var(--card-bg);
+    border-radius: 5px;
+    border: 1px solid rgba(0, 247, 255, 0.2);
+}
+
+.analysis-cta p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: var(--light);
+}
+
+/* Responsive Design for Analysis Section */
+@media (max-width: 768px) {
+    .looker-reports {
+        grid-template-columns: 1fr;
+    }
+    
+    .analysis-intro {
+        font-size: 1.1rem;
+    }
+}
 
 /* Contact Section */
 .contact-content {

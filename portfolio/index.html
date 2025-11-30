@@ -11,6 +11,7 @@
         src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
    </script>
     <script type="text/javascript">
+        
    (function(){
       emailjs.init({
         publicKey: "YbY5lFTLcASLAHcMZp",
@@ -33,13 +34,15 @@
     <header>
         <div class="container">
             <nav class="navbar">
-                <a href="#" class="logo">Port<span>folio</span></a>
-                <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
+                <a href="" class="logo">Port<span>folio</span></a>
+                <!-- Update your navigation in the header -->
+             <ul class="nav-links">
+                  <li><a href="#home">Home</a></li>
+                  <li><a href="#about">About</a></li>
+                  <li><a href="#projects">Projects</a></li>
+                 <li><a href="#analysis">Analysis</a></li> <!-- Add this line -->
+                 <li><a href="#contact">Contact</a></li>
+             </ul>
                 <div class="hamburger">
                     <i class="fas fa-bars"></i>
                 </div>
@@ -107,7 +110,7 @@
                             <span class="project-tag">Sql</span>
                             <span class="project-tag">MongoDb</span>
                         </div>
-                        <a href="https://github.com/shrinka23/gcash-paymongo" class="btn">View Code</a>
+                        <a href="http://localhost/paymongo-payment-method/store.php" class="btn">View Code</a>
                     </div>
                 </div>
                 
@@ -124,7 +127,7 @@
                             <span class="project-tag">CSS</span>
                             <span class="project-tag">JAVA</span>
                         </div>
-                        <a href="https://travel-landing-page-dusky-nu.vercel.app/" class="btn">View Project</a>
+                        <a href="https://t-est-rose.vercel.app/?fbclid=IwY2xjawNRX_tleHRuA2FlbQIxMABicmlkETFBM1pua2FVTDFPZWM1Z2MzAR7fEo1v4Y8vdTPKTxlOI0FmkPFE3k6J_sQ3moxi_Ee7I0iXKrKL6mdYM0bJDw_aem_feGXZP_b8f0CPxsMHkKgug" class="btn">View Project</a>
                     </div>
                 </div>
                 
@@ -144,9 +147,68 @@
                         <a href="https://github.com/shrinka23/new-portfolio/tree/main/portfolio" class="btn">View Project</a>
                     </div>
                 </div>
+
+                 <!-- Project 4 -->
+                <div class="project-card">
+                    <div class="project-img">
+                        <img src="pasta.png" alt="E-commerce Website">
+                    </div>
+                    <div class="project-info">
+                        <h3>Pasta Presto E-commerce</h3>
+                        <p>Pasta Presto E-commerce is an online store that sells pasta and related Italian food products, offering fast ordering and convenient delivery to customers. Your PHP code sends payment details to the gateway, which returns a checkout link that redirects users to the GCash payment page.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">PHP</span>
+                            <span class="project-tag">Sql</span>
+                            <span class="project-tag">Xammp</span>
+                        </div>
+                        <a href="https://github.com/shrinka23/pasta.php" class="btn">View Code</a>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </section>
+
+    <!-- Add this section after the Projects section and before the Contact section -->
+<section class="section analysis" id="analysis">
+    <div class="container">
+        <div class="section-title">
+            <h2>Data Analysis</h2>
+        </div>
+        
+        <div class="analysis-intro">
+            <p>I transform raw data into actionable insights through comprehensive analysis and visualization. Below are my interactive data dashboards created with Google Looker Studio.</p>
+        </div>
+        
+        <div class="looker-reports">
+            <!-- Report 1 -->
+            <div class="report-card">
+                <div class="report-preview">
+                    <div class="report-image">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Data Analysis Dashboard">
+                    </div>
+                    <div class="report-overlay">
+                        <a href="https://lookerstudio.google.com/reporting/8d65bf73-e464-4a8a-ac6e-3bc9eb0afa0b" class="btn" target="_blank">View Dashboard</a>
+                    </div>
+                </div>
+                <div class="report-info">
+                    <h3>Sales Performance Dashboard</h3>
+                    <p>Comprehensive analysis of sales metrics, trends, and performance indicators across multiple regions.</p>
+                    <div class="report-tags">
+                        <span class="report-tag">Sales Analytics</span>
+                        <span class="report-tag">Performance Metrics</span>
+                        <span class="report-tag">Regional Analysis</span>
+                    </div>
+                </div>
+            </div>
+            
+            
+        <div class="analysis-cta">
+            <p>Need custom analytics for your business?</p>
+            <a href="#contact" class="btn">Get In Touch</a>
+        </div>
+    </div>
+</section>
 
     <!-- Contact Section -->
     <section class="section" id="contact">
@@ -171,7 +233,7 @@
                         </div>
                         <div class="contact-text">
                             <h4>Email</h4>
-                            <p>albodarwin12@gmail.com</p>
+                            <p>qdarwinrhey@gmail.com</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -187,12 +249,12 @@
                 <div class="contact-form">
                      <form id="contactForm" action="https://formspree.io/f/mkgqqaly" method="POST">
                         <div class="form-group">
-                            <label for="name">From (Email) </label>
-                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter your Email" required>
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
                         </div>
                         <div class="form-group">
-                            <label for="email">To (Email) </label>
-                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter the Email" required>
+                            <label for="email">Your Email</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
                         </div>
                         <div class="form-group">
                             <label for="subject">Subject</label>
@@ -223,10 +285,4 @@
 </body>
 
 </html>
-
-
-
-
-
-
 

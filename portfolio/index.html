@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init({
+                publicKey: "YbY5lFTLcASLAHcMZp",
+            });
+        })();
+    </script>
 </head>
 <body>
     <!-- Microchip Pattern -->
@@ -21,7 +29,7 @@
     <header>
         <div class="container">
             <nav class="navbar">
-                <a href="" class="logo">Port<span>folio</span></a>
+                <a href="#home" class="logo">Port<span>folio</span></a>
                 <ul class="nav-links">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#about">About</a></li>
@@ -86,7 +94,7 @@
                 <!-- Project 1 -->
                 <div class="project-card">
                     <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="E-commerce Website" loading="lazy">
+                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="E-commerce Website">
                     </div>
                     <div class="project-info">
                         <h3>Gcash Payment Method</h3>
@@ -103,7 +111,7 @@
                 <!-- Project 2 -->
                 <div class="project-card">
                     <div class="project-img">
-                        <img src="page.jfif" alt="Task Management App" loading="lazy">
+                        <img src="page.jfif" alt="Task Management App">
                     </div>
                     <div class="project-info">
                         <h3>Landing Page For Mabini Tourist Spot</h3>
@@ -120,7 +128,7 @@
                 <!-- Project 3 -->
                 <div class="project-card">
                     <div class="project-img">
-                        <img src="portfolio.jfif" alt="User Portfolio" loading="lazy">
+                        <img src="portfolio.jfif" alt="User Portfolio">
                     </div>
                     <div class="project-info">
                         <h3>User Portfolio</h3>
@@ -137,11 +145,11 @@
                 <!-- Project 4 -->
                 <div class="project-card">
                     <div class="project-img">
-                        <img src="pasta.png" alt="E-commerce Website" loading="lazy">
+                        <img src="pasta.png" alt="E-commerce Website">
                     </div>
                     <div class="project-info">
                         <h3>Pasta Presto E-commerce</h3>
-                        <p>Pasta Presto E-commerce is an online store that sells pasta and related Italian food products, offering fast ordering and convenient delivery to customers. Your PHP code sends payment details to the gateway, which returns a checkout link that redirects users to the GCash payment page.</p>
+                        <p>Pasta Presto E-commerce is an online store that sells pasta and related Italian food products, offering fast ordering and convenient delivery to customers.</p>
                         <div class="project-tags">
                             <span class="project-tag">PHP</span>
                             <span class="project-tag">Sql</span>
@@ -170,10 +178,10 @@
                 <div class="report-card">
                     <div class="report-preview">
                         <div class="report-image">
-                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Data Analysis Dashboard" loading="lazy">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Data Analysis Dashboard">
                         </div>
                         <div class="report-overlay">
-                            <a href="https://lookerstudio.google.com/reporting/8d65bf73-e464-4a8a-ac6e-3bc9eb0afa0b" class="btn" target="_blank">View Dashboard</a>
+                            <a href="https://lookerstudio.google.com/reporting/8d65bf73-e464-4a8a-ac6e-3bc9eb0afa0b" class="btn" target="_blank" rel="noopener">View Dashboard</a>
                         </div>
                     </div>
                     <div class="report-info">
@@ -232,21 +240,21 @@
                     </div>
                 </div>
                 <div class="contact-form">
-                    <form id="contactForm">
+                    <form id="contactForm" action="https://formspree.io/f/mkgqqaly" method="POST">
                         <div class="form-group">
-                            <label for="name">Your Name *</label>
+                            <label for="name">Your Name</label>
                             <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
                         </div>
                         <div class="form-group">
-                            <label for="email">Your Email *</label>
+                            <label for="email">Your Email</label>
                             <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
                         </div>
                         <div class="form-group">
-                            <label for="subject">Subject *</label>
+                            <label for="subject">Subject</label>
                             <input type="text" id="subject" name="subject" class="form-control" placeholder="Enter subject" required>
                         </div>
                         <div class="form-group">
-                            <label for="message">Message *</label>
+                            <label for="message">Message</label>
                             <textarea id="message" name="message" class="form-control" placeholder="Enter your message" required></textarea>
                         </div>
                         <button type="submit" class="btn">Send Message</button>
@@ -260,11 +268,11 @@
     <footer>
         <div class="container">
             <div class="social-links">
-                <a href="https://github.com/shrinka23" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="https://x.com/DarwinAlbo2778" target="_blank"><i class="fab fa-twitter"></i></a>
-                <a href="https://www.instagram.com/kiyowei99/" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://github.com/shrinka23" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://x.com/DarwinAlbo2778" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com/kiyowei99/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             </div>
-            <p class="copyright">&copy; <span id="currentYear"></span> Darwin Albo. All Rights Reserved.</p>
+            <p class="copyright">&copy; 2025 Darwin Albo. All Rights Reserved.</p>
         </div>
     </footer>
 

@@ -1,4 +1,4 @@
-// Contact Form Manager (Updated for Mobile)
+// Contact Form Manager with Mobile Optimization
 class ContactFormManager {
     constructor() {
         this.init();
@@ -9,36 +9,58 @@ class ContactFormManager {
         this.injectStyles();
         this.setupMobileNavigation();
         this.setupMobileOptimizations();
+        this.updateCopyrightYear();
     }
 
     setupMobileNavigation() {
         const hamburger = document.querySelector('.hamburger');
         const navLinks = document.querySelector('.nav-links');
+        const body = document.body;
         
         if (!hamburger || !navLinks) return;
         
-        hamburger.addEventListener('click', () => {
+        // Add click event for hamburger menu
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
             navLinks.classList.toggle('active');
             hamburger.innerHTML = navLinks.classList.contains('active') 
                 ? '<i class="fas fa-times"></i>' 
                 : '<i class="fas fa-bars"></i>';
-            document.body.style.overflow = navLinks.classList.contains('active') 
-                ? 'hidden' 
-                : '';
+            
+            // Toggle body overflow
+            if (navLinks.classList.contains('active')) {
+                body.classList.add('menu-open');
+                body.style.overflow = 'hidden';
+            } else {
+                body.classList.remove('menu-open');
+                body.style.overflow = '';
+            }
         });
         
         // Close menu when clicking a link
         document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
+            link.addEventListener('click', (e) => {
                 if (window.innerWidth <= 768) {
-                    navLinks.classList.remove('active');
-                    hamburger.innerHTML = '<i class="fas fa-bars"></i>';
-                    document.body.style.overflow = '';
+                    const href = link.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        // Allow smooth scroll for anchor links
+                        setTimeout(() => {
+                            navLinks.classList.remove('active');
+                            hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+                            body.classList.remove('menu-open');
+                            body.style.overflow = '';
+                        }, 300);
+                    } else {
+                        navLinks.classList.remove('active');
+                        hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+                        body.classList.remove('menu-open');
+                        body.style.overflow = '';
+                    }
                 }
             });
         });
         
-        // Close menu when clicking outside on mobile
+        // Close menu when clicking outside
         document.addEventListener('click', (e) => {
             if (window.innerWidth <= 768 &&
                 navLinks.classList.contains('active') &&
@@ -46,7 +68,8 @@ class ContactFormManager {
                 !hamburger.contains(e.target)) {
                 navLinks.classList.remove('active');
                 hamburger.innerHTML = '<i class="fas fa-bars"></i>';
-                document.body.style.overflow = '';
+                body.classList.remove('menu-open');
+                body.style.overflow = '';
             }
         });
         
@@ -55,17 +78,23 @@ class ContactFormManager {
             if (e.key === 'Escape' && navLinks.classList.contains('active')) {
                 navLinks.classList.remove('active');
                 hamburger.innerHTML = '<i class="fas fa-bars"></i>';
-                document.body.style.overflow = '';
+                body.classList.remove('menu-open');
+                body.style.overflow = '';
             }
         });
         
         // Update hamburger visibility on resize
+        let resizeTimer;
         window.addEventListener('resize', () => {
-            if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
-                hamburger.innerHTML = '<i class="fas fa-bars"></i>';
-                document.body.style.overflow = '';
-            }
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+                    body.classList.remove('menu-open');
+                    body.style.overflow = '';
+                }
+            }, 250);
         });
     }
 
@@ -96,7 +125,7 @@ class ContactFormManager {
             });
         });
         
-        // Smooth scroll for anchor links
+        // Smooth scroll for anchor links with mobile adjustments
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', (e) => {
                 const targetId = anchor.getAttribute('href');
@@ -114,23 +143,79 @@ class ContactFormManager {
                     });
                     
                     // Close mobile menu if open
-                    const navLinks = document.querySelector('.nav-links');
-                    const hamburger = document.querySelector('.hamburger');
-                    if (window.innerWidth <= 768 && navLinks && navLinks.classList.contains('active')) {
-                        navLinks.classList.remove('active');
-                        hamburger.innerHTML = '<i class="fas fa-bars"></i>';
-                        document.body.style.overflow = '';
+                    if (window.innerWidth <= 768) {
+                        const navLinks = document.querySelector('.nav-links');
+                        const hamburger = document.querySelector('.hamburger');
+                        const body = document.body;
+                        if (navLinks && navLinks.classList.contains('active')) {
+                            navLinks.classList.remove('active');
+                            hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+                            body.classList.remove('menu-open');
+                            body.style.overflow = '';
+                        }
                     }
                 }
             });
         });
+        
+        // Add touch feedback for buttons
+        if ('ontouchstart' in window) {
+            document.documentElement.classList.add('touch-device');
+            
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('touchstart', function() {
+                    this.classList.add('touch-active');
+                });
+                
+                btn.addEventListener('touchend', function() {
+                    this.classList.remove('touch-active');
+                });
+                
+                btn.addEventListener('touchcancel', function() {
+                    this.classList.remove('touch-active');
+                });
+            });
+        }
+        
+        // Lazy load images for better mobile performance
+        this.setupLazyLoading();
+    }
+
+    setupLazyLoading() {
+        const images = document.querySelectorAll('img[loading="lazy"]');
+        
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src || img.src;
+                        img.classList.add('loaded');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            }, {
+                rootMargin: '50px 0px',
+                threshold: 0.1
+            });
+            
+            images.forEach(img => {
+                if (img.dataset.src) {
+                    imageObserver.observe(img);
+                }
+            });
+        } else {
+            // Fallback for browsers that don't support IntersectionObserver
+            images.forEach(img => {
+                img.src = img.dataset.src || img.src;
+            });
+        }
     }
 
     setupEventListeners() {
         const runInit = () => {
             this.initializeForm();
             this.setupFormAnimations();
-            this.updateCopyrightYear();
         };
 
         if (document.readyState === 'loading') {
@@ -208,6 +293,7 @@ class ContactFormManager {
             // Simulate form submission (replace with actual API call)
             await new Promise(resolve => setTimeout(resolve, 1500));
             
+            // Success
             this.handleSuccess(form);
         } catch (error) {
             this.handleSubmissionError(error);
@@ -487,41 +573,11 @@ class ContactFormManager {
         if (document.getElementById('contact-form-styles')) return;
 
         const styles = `
-            /* Mobile-specific styles */
-            @media (max-width: 767px) {
-                .notification {
-                    top: 10px;
-                    right: 10px;
-                    left: 10px;
-                    max-width: calc(100% - 20px);
-                }
-                
-                .notification-content {
-                    padding: 12px 16px;
-                    font-size: 0.9rem;
-                }
-                
-                /* Hide scrollbars on mobile */
-                ::-webkit-scrollbar {
-                    display: none;
-                }
-            }
-            
-            /* Touch device optimizations */
-            .touch-device .btn:active {
+            /* Additional mobile optimizations */
+            .touch-active {
+                opacity: 0.8;
                 transform: scale(0.98);
                 transition: transform 0.1s ease;
-            }
-            
-            /* iOS input fix */
-            @media screen and (max-width: 768px) {
-                input[type="text"],
-                input[type="email"],
-                input[type="tel"],
-                textarea,
-                select {
-                    font-size: 16px !important;
-                }
             }
             
             /* Loading animation for mobile */
@@ -533,6 +589,47 @@ class ContactFormManager {
             .form-loading * {
                 animation: pulse 2s infinite;
             }
+            
+            /* Fix for button spacing on mobile */
+            @media (max-width: 767px) {
+                .hero-buttons {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    align-items: center;
+                    width: 100%;
+                }
+                
+                .hero-buttons .btn {
+                    width: 100%;
+                    max-width: 300px;
+                    margin: 5px 0;
+                }
+                
+                /* Fix for iOS input */
+                input[type="text"],
+                input[type="email"],
+                input[type="tel"],
+                textarea,
+                select {
+                    font-size: 16px !important;
+                }
+                
+                /* Improve scrolling on iOS */
+                .scroll-fix {
+                    -webkit-overflow-scrolling: touch;
+                }
+            }
+            
+            /* Performance optimizations */
+            img[loading="lazy"] {
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            
+            img[loading="lazy"].loaded {
+                opacity: 1;
+            }
         `;
 
         const styleSheet = document.createElement('style');
@@ -542,47 +639,60 @@ class ContactFormManager {
     }
 }
 
-// Initialize the contact form manager
-new ContactFormManager();
-
-// Additional mobile optimizations
-document.addEventListener('DOMContentLoaded', function() {
-    // Lazy load images for better mobile performance
-    const images = document.querySelectorAll('img[loading="lazy"]');
-    
-    if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.src = img.dataset.src || img.src;
-                    img.classList.add('loaded');
-                    imageObserver.unobserve(img);
-                }
-            });
-        }, {
-            rootMargin: '50px 0px',
-            threshold: 0.1
-        });
-        
-        images.forEach(img => {
-            if (img.dataset.src) {
-                imageObserver.observe(img);
-            }
-        });
-    }
-    
-    // Handle window resize for responsive adjustments
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            // Recalculate any dynamic sizing if needed
-        }, 250);
+// Initialize the contact form manager when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        new ContactFormManager();
     });
+} else {
+    new ContactFormManager();
+}
+
+// Error handling for the application
+window.addEventListener('error', (event) => {
+    console.error('Application Error:', event.error);
     
-    // Add touch device detection
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-        document.documentElement.classList.add('touch-device');
-    }
+    // Show user-friendly error message
+    const notification = document.createElement('div');
+    notification.className = 'notification error';
+    notification.innerHTML = `
+        <div class="notification-content">
+            <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
+            <span>An unexpected error occurred. Please refresh the page.</span>
+            <button class="notification-close" aria-label="Close notification">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.remove();
+            }
+        }, 300);
+    }, 5000);
+    
+    event.preventDefault();
 });
+
+// Add performance monitoring
+if ('performance' in window) {
+    window.addEventListener('load', () => {
+        const timing = performance.timing;
+        const loadTime = timing.loadEventEnd - timing.navigationStart;
+        console.log(`Page loaded in ${loadTime}ms`);
+        
+        // Log any performance issues
+        if (loadTime > 3000) {
+            console.warn('Page load time is high. Consider optimizing assets.');
+        }
+    });
+}

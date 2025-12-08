@@ -1,401 +1,191 @@
-// Contact Form Manager
-class ContactFormManager {
+// Main Application Controller
+class PortfolioApp {
     constructor() {
-        this.isMobile = window.innerWidth <= 768;
+        this.initializeApp();
+    }
+
+    initializeApp() {
+        // Initialize all components
+        this.navigation = new Navigation();
+        this.contactForm = new ContactForm();
+        this.backToTop = new BackToTop();
+        this.notifications = new NotificationSystem();
+        this.currentYear = new CurrentYear();
+
+        // Initialize event listeners
+        this.bindEvents();
+
+        console.log('Portfolio App Initialized');
+    }
+
+    bindEvents() {
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = anchor.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const headerHeight = document.querySelector('.navbar').offsetHeight;
+                    const targetPosition = targetElement.offsetTop - headerHeight - 20;
+
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    // Close mobile menu if open
+                    if (this.navigation.navMenu.classList.contains('active')) {
+                        this.navigation.toggleMenu();
+                    }
+                }
+            });
+        });
+
+        // Prevent form submission on Enter key in textareas
+        document.querySelectorAll('textarea').forEach(textarea => {
+            textarea.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && e.ctrlKey) {
+                    e.preventDefault();
+                    textarea.value += '\n';
+                }
+            });
+        });
+
+        // Add animation on scroll
+        this.initializeScrollAnimations();
+    }
+
+    initializeScrollAnimations() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.project-card, .analysis-card').forEach(el => {
+            observer.observe(el);
+        });
+    }
+}
+
+// Navigation Controller
+class Navigation {
+    constructor() {
+        this.menuToggle = document.querySelector('.menu-toggle');
+        this.navMenu = document.querySelector('.nav-menu');
         this.init();
     }
 
     init() {
-        this.setupEventListeners();
-        this.injectStyles();
-        this.setupResizeHandler();
-    }
+        if (!this.menuToggle) return;
 
-    setupResizeHandler() {
-        let resizeTimeout;
+        this.menuToggle.addEventListener('click', () => this.toggleMenu());
+
+        // Close menu when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 &&
+                this.navMenu.classList.contains('active') &&
+                !this.navMenu.contains(e.target) &&
+                !this.menuToggle.contains(e.target)) {
+                this.toggleMenu();
+            }
+        });
+
+        // Close menu when window is resized above mobile breakpoint
         window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                this.isMobile = window.innerWidth <= 768;
-                this.adjustForMobile();
-            }, 250);
-        });
-    }
-
-    adjustForMobile() {
-        const form = document.getElementById('contactForm');
-        if (!form) return;
-
-        // Adjust form spacing on mobile
-        const formGroups = form.querySelectorAll('.form-group');
-        formGroups.forEach(group => {
-            if (this.isMobile) {
-                group.style.marginBottom = '1.2rem';
-            } else {
-                group.style.marginBottom = '';
-            }
-        });
-
-        // Adjust button size on mobile
-        const submitBtn = form.querySelector('button[type="submit"]');
-        if (submitBtn) {
-            if (this.isMobile) {
-                submitBtn.style.padding = '0.8rem 1.5rem';
-                submitBtn.style.fontSize = '1rem';
-                submitBtn.style.width = '100%';
-            } else {
-                submitBtn.style.padding = '';
-                submitBtn.style.fontSize = '';
-                submitBtn.style.width = '';
-            }
-        }
-
-        // Adjust input font sizes for better mobile readability
-        const inputs = form.querySelectorAll('input, textarea');
-        inputs.forEach(input => {
-            if (this.isMobile) {
-                input.style.fontSize = '16px'; // Prevents iOS zoom on focus
-                input.style.padding = '0.8rem';
-            } else {
-                input.style.fontSize = '';
-                input.style.padding = '';
+            if (window.innerWidth > 768 && this.navMenu.classList.contains('active')) {
+                this.toggleMenu();
             }
         });
     }
 
-    setupEventListeners() {
-        const runInit = () => {
-            this.initializeForm();
-            this.setupFormAnimations();
-            this.adjustForMobile();
-        };
+    toggleMenu() {
+        this.menuToggle.classList.toggle('active');
+        this.navMenu.classList.toggle('active');
+        document.body.style.overflow = this.navMenu.classList.contains('active') ? 'hidden' : '';
+    }
+}
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', runInit, { once: true });
-        } else {
-            runInit();
-        }
+// Contact Form Handler
+class ContactForm {
+    constructor() {
+        this.form = document.getElementById('contactForm');
+        if (!this.form) return;
+
+        this.submitButton = this.form.querySelector('button[type="submit"]');
+        this.btnText = this.form.querySelector('.btn-text');
+        this.btnLoader = this.form.querySelector('.btn-loader');
+        this.init();
     }
 
-    initializeForm() {
-        const contactForm = document.getElementById('contactForm');
-        if (!contactForm) {
-            console.warn('Contact form not found');
-            return;
-        }
+    init() {
+        // Form submission
+        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
 
-        this.setupFormHandling(contactForm);
-        this.setupFormValidation(contactForm);
-        this.setupTouchEvents(contactForm);
-    }
-
-    setupTouchEvents(form) {
-        // Add touch-specific interactions for mobile
-        const inputs = form.querySelectorAll('input, textarea');
-        
-        inputs.forEach(input => {
-            // Prevent double-tap zoom on mobile
-            input.addEventListener('touchstart', (e) => {
-                if (this.isMobile) {
-                    e.target.style.fontSize = '16px';
-                }
-            });
-
-            // Improve mobile keyboard experience
-            if (input.tagName === 'TEXTAREA') {
-                input.addEventListener('focus', () => {
-                    if (this.isMobile) {
-                        setTimeout(() => {
-                            input.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }, 300);
-                    }
-                });
-            }
-        });
-
-        // Better submit button touch feedback
-        const submitBtn = form.querySelector('button[type="submit"]');
-        if (submitBtn) {
-            submitBtn.addEventListener('touchstart', () => {
-                if (this.isMobile) {
-                    submitBtn.style.transform = 'scale(0.98)';
-                }
-            });
-
-            submitBtn.addEventListener('touchend', () => {
-                if (this.isMobile) {
-                    submitBtn.style.transform = '';
-                }
-            });
-        }
-    }
-
-    setupFormHandling(form) {
-        // Use event delegation for submit to ensure proper target
-        form.addEventListener('submit', this.handleFormSubmit.bind(this));
-
-        // Add input event listeners for real-time validation
-        const inputs = form.querySelectorAll('input, textarea');
-        inputs.forEach(input => {
-            input.addEventListener('input', this.handleInput.bind(this));
-            input.addEventListener('blur', this.handleBlur.bind(this));
-            
-            // Add focus styles for better mobile UX
-            input.addEventListener('focus', () => {
-                if (this.isMobile) {
-                    input.style.outline = 'none';
-                    input.style.borderWidth = '2px';
-                }
-            });
-            
-            input.addEventListener('blur', () => {
-                if (this.isMobile) {
-                    input.style.borderWidth = '';
-                }
-            });
-        });
-
-        // Prevent form submission on enter key in textareas (mobile keyboards)
-        form.querySelectorAll('textarea').forEach(textarea => {
-            textarea.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey && this.isMobile) {
-                    e.stopPropagation(); // Don't submit, allow new line
-                }
-            });
-        });
-
-        // Ensure any buttons inside forms that are not meant to submit explicitly have type="button"
-        form.querySelectorAll('button:not([type])').forEach(btn => btn.setAttribute('type', 'button'));
-    }
-
-    setupFormValidation(form) {
-        // Add required field indicators to labels within .form-group
-        const requiredFields = form.querySelectorAll('[required]');
-        requiredFields.forEach(field => {
-            const label = field.closest('.form-group')?.querySelector('label');
-            if (label && !label.querySelector('.required')) {
-                const star = document.createElement('span');
-                star.className = 'required';
-                star.textContent = '*';
-                star.style.fontSize = this.isMobile ? '1.2em' : '1em';
-                label.appendChild(star);
-            }
+        // Real-time validation
+        this.form.querySelectorAll('input, textarea').forEach(input => {
+            input.addEventListener('blur', () => this.validateField(input));
+            input.addEventListener('input', () => this.clearFieldError(input));
         });
     }
 
-    async handleFormSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
 
-        const form = e.target;
-        const submitBtn = form.querySelector('button[type="submit"]');
-
-        if (!this.validateForm(form)) {
+        // Validate all fields
+        if (!this.validateForm()) {
             this.showNotification('Please fill in all required fields correctly.', 'error');
             return;
         }
 
-        // Hide mobile keyboard after submission attempt
-        if (this.isMobile) {
-            const activeElement = document.activeElement;
-            if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
-                activeElement.blur();
-            }
-        }
-
-        await this.submitForm(form, submitBtn);
-    }
-
-    async submitForm(form, submitBtn) {
-        const originalText = submitBtn ? submitBtn.innerHTML : '';
-        if (submitBtn) {
-            this.setLoadingState(submitBtn, true);
-        }
-        form.classList.add('form-loading');
+        // Get form data
+        const formData = new FormData(this.form);
+        const data = Object.fromEntries(formData);
 
         try {
-            const formData = new FormData(form);
+            // Show loading state
+            this.setLoadingState(true);
 
-            // When sending FormData, do not set Content-Type header manually.
-            const response = await fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
+            // Send email using EmailJS
+            const response = await emailjs.send(
+                'service_your_service_id', // Replace with your service ID
+                'template_your_template_id', // Replace with your template ID
+                {
+                    from_name: data.name,
+                    from_email: data.email,
+                    subject: data.subject,
+                    message: data.message,
+                    reply_to: data.email
                 }
-            });
+            );
 
-            if (response.ok) {
-                this.handleSuccess(form);
-            } else {
-                await this.handleError(response);
-            }
+            // Success
+            this.handleSuccess();
+
         } catch (error) {
-            this.handleSubmissionError(error);
+            console.error('EmailJS Error:', error);
+            this.handleError(error);
         } finally {
-            if (submitBtn) {
-                this.setLoadingState(submitBtn, false, originalText);
-            }
-            form.classList.remove('form-loading');
+            this.setLoadingState(false);
         }
     }
 
-    setLoadingState(button, isLoading, originalText = '') {
-        if (!button) return;
-        if (isLoading) {
-            button.dataset._originalText = button.dataset._originalText || button.innerHTML;
-            button.innerHTML = this.isMobile 
-                ? '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i>'
-                : '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Sending...';
-            button.disabled = true;
-            button.style.opacity = '0.8';
-        } else {
-            const restore = originalText || button.dataset._originalText || button.innerHTML;
-            button.innerHTML = restore;
-            button.disabled = false;
-            button.style.opacity = '';
-            delete button.dataset._originalText;
-        }
-    }
-
-    handleSuccess(form) {
-        this.showNotification('Message sent successfully! I will get back to you soon.', 'success');
-        try { form.reset(); } catch (err) { /* ignore */ }
-        this.resetFormValidation(form);
-        
-        // Scroll to top of form on mobile for better UX
-        if (this.isMobile && form.scrollIntoView) {
-            setTimeout(() => {
-                form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 300);
-        }
-    }
-
-    async handleError(response) {
-        try {
-            const errorData = await response.json();
-            throw new Error(errorData.error || `Server responded with status: ${response.status}`);
-        } catch (parseError) {
-            throw new Error(`Form submission failed: ${response.status}`);
-        }
-    }
-
-    handleSubmissionError(error) {
-        console.error('Form submission failed:', error);
-        this.showNotification(
-            'Failed to send message. Please try again or email me directly at qdarwinrhey@gmail.com',
-            'error'
-        );
-    }
-
-    // Validation Methods
-    handleInput(e) {
-        this.clearFieldError(e.target);
-    }
-
-    handleBlur(e) {
-        this.validateField(e.target);
-    }
-
-    validateField(field) {
-        if (!field) return true;
-
-        const value = (field.value || '').trim();
-        const fieldName = field.getAttribute('name') || field.type || '';
-
-        // Required check
-        if (field.hasAttribute('required') && !value) {
-            this.showFieldError(field, 'This field is required');
-            return false;
-        }
-
-        if (value) {
-            return this.validateFieldType(field, value, fieldName);
-        }
-
-        this.markFieldValid(field);
-        return true;
-    }
-
-    validateFieldType(field, value, fieldName) {
-        const validators = {
-            email: () => {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return emailRegex.test(value) || 'Please enter a valid email address';
-            },
-            text: () => {
-                if (fieldName === 'name' && value.length < 2) {
-                    return 'Name must be at least 2 characters long';
-                }
-                return true;
-            },
-            textarea: () => {
-                if (fieldName === 'message' && value.length < 10) {
-                    return 'Message must be at least 10 characters long';
-                }
-                return true;
-            }
-        };
-
-        const validator = validators[field.type] || validators[fieldName] || (() => true);
-        const result = validator();
-
-        if (result !== true) {
-            this.showFieldError(field, result);
-            return false;
-        }
-
-        this.markFieldValid(field);
-        return true;
-    }
-
-    showFieldError(field, message) {
-        field.classList.add('error');
-        field.classList.remove('valid');
-
-        const container = field.closest('.form-group') || field.parentNode;
-        if (!container) return;
-
-        let errorElement = container.querySelector('.field-error');
-        if (!errorElement) {
-            errorElement = document.createElement('div');
-            errorElement.className = 'field-error';
-            container.appendChild(errorElement);
-        }
-
-        errorElement.textContent = message;
-        errorElement.style.fontSize = this.isMobile ? '0.8rem' : '0.875rem';
-        
-        if (field.id) {
-            errorElement.setAttribute('aria-live', 'assertive');
-            field.setAttribute('aria-describedby', `${field.id}-error`);
-            errorElement.id = `${field.id}-error`;
-        }
-    }
-
-    clearFieldError(field) {
-        if (!field) return;
-        const container = field.closest('.form-group') || field.parentNode;
-        const errorElement = container ? container.querySelector('.field-error') : null;
-        if (errorElement) {
-            errorElement.remove();
-        }
-        field.classList.remove('error');
-        if (field.id) {
-            field.removeAttribute('aria-describedby');
-        }
-    }
-
-    markFieldValid(field) {
-        field.classList.add('valid');
-        field.classList.remove('error');
-        this.clearFieldError(field);
-    }
-
-    validateForm(form) {
-        const fields = form.querySelectorAll('input[required], textarea[required]');
+    validateForm() {
         let isValid = true;
+        const requiredFields = this.form.querySelectorAll('[required]');
 
-        fields.forEach(field => {
+        requiredFields.forEach(field => {
             if (!this.validateField(field)) {
                 isValid = false;
             }
@@ -404,473 +194,485 @@ class ContactFormManager {
         return isValid;
     }
 
-    resetFormValidation(form) {
-        const fields = form.querySelectorAll('input, textarea');
-        fields.forEach(field => {
-            field.classList.remove('error', 'valid');
-            this.clearFieldError(field);
-        });
+    validateField(field) {
+        const value = field.value.trim();
+        const formGroup = field.closest('.form-group');
+
+        // Clear previous states
+        formGroup.classList.remove('error', 'success');
+
+        // Required check
+        if (field.hasAttribute('required') && !value) {
+            this.showFieldError(field, 'This field is required');
+            return false;
+        }
+
+        // Email validation
+        if (field.type === 'email' && value) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) {
+                this.showFieldError(field, 'Please enter a valid email address');
+                return false;
+            }
+        }
+
+        // Min length validation
+        if (field.hasAttribute('minlength')) {
+            const minLength = parseInt(field.getAttribute('minlength'));
+            if (value.length < minLength) {
+                this.showFieldError(field, `Minimum ${minLength} characters required`);
+                return false;
+            }
+        }
+
+        // Mark as valid
+        formGroup.classList.add('success');
+        this.clearFieldError(field);
+        return true;
     }
 
-    // Animation Methods
-    setupFormAnimations() {
-        const form = document.getElementById('contactForm');
-        if (!form) return;
+    showFieldError(field, message) {
+        const formGroup = field.closest('.form-group');
+        formGroup.classList.add('error');
+        formGroup.classList.remove('success');
 
-        const inputs = form.querySelectorAll('input, textarea, button');
-
-        inputs.forEach((input, index) => {
-            this.animateElement(input, index);
-        });
+        const errorElement = formGroup.querySelector('.error-message');
+        if (errorElement) {
+            errorElement.textContent = message;
+        }
     }
 
-    animateElement(element, index) {
-        // Reduce animation delay on mobile for faster perceived performance
-        const delay = this.isMobile ? index * 50 + 100 : index * 100 + 300;
+    clearFieldError(field) {
+        const formGroup = field.closest('.form-group');
+        formGroup.classList.remove('error');
         
-        element.style.opacity = element.style.opacity || '0';
-        element.style.transform = element.style.transform || 'translateY(20px)';
-        element.style.transition = `all 0.4s ease ${delay}ms`;
+        const errorElement = formGroup.querySelector('.error-message');
+        if (errorElement) {
+            errorElement.textContent = '';
+        }
+    }
 
-        requestAnimationFrame(() => {
-            element.style.opacity = '1';
-            element.style.transform = 'translateY(0)';
+    setLoadingState(isLoading) {
+        if (isLoading) {
+            this.submitButton.disabled = true;
+            this.btnText.style.display = 'none';
+            this.btnLoader.style.display = 'inline-flex';
+            this.form.classList.add('loading');
+        } else {
+            this.submitButton.disabled = false;
+            this.btnText.style.display = 'inline-flex';
+            this.btnLoader.style.display = 'none';
+            this.form.classList.remove('loading');
+        }
+    }
+
+    handleSuccess() {
+        this.showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
+        this.form.reset();
+        
+        // Clear validation states
+        this.form.querySelectorAll('.form-group').forEach(group => {
+            group.classList.remove('success', 'error');
+            const errorElement = group.querySelector('.error-message');
+            if (errorElement) errorElement.textContent = '';
         });
     }
 
-    // Notification System
-    showNotification(message, type = 'info') {
-        this.removeExistingNotifications();
-
-        const notification = this.createNotificationElement(message, type);
-        document.body.appendChild(notification);
-
-        // Force reflow then show
-        // eslint-disable-next-line no-unused-expressions
-        notification.offsetHeight;
-        this.animateNotificationIn(notification);
-        this.setupNotificationAutoRemove(notification);
+    handleError(error) {
+        console.error('Form submission error:', error);
+        this.showNotification(
+            'Failed to send message. Please try again or email me directly at qdarwinrhey@gmail.com',
+            'error'
+        );
     }
 
-    createNotificationElement(message, type) {
+    showNotification(message, type) {
+        const notificationSystem = new NotificationSystem();
+        notificationSystem.show(message, type);
+    }
+}
+
+// Back to Top Button
+class BackToTop {
+    constructor() {
+        this.button = document.querySelector('.back-to-top');
+        if (!this.button) return;
+
+        this.init();
+    }
+
+    init() {
+        // Show/hide button based on scroll position
+        window.addEventListener('scroll', () => this.toggleVisibility());
+
+        // Scroll to top when clicked
+        this.button.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Initial check
+        this.toggleVisibility();
+    }
+
+    toggleVisibility() {
+        if (window.scrollY > 300) {
+            this.button.classList.add('visible');
+        } else {
+            this.button.classList.remove('visible');
+        }
+    }
+}
+
+// Notification System
+class NotificationSystem {
+    constructor() {
+        this.container = document.getElementById('notificationContainer');
+        if (!this.container) {
+            this.container = document.createElement('div');
+            this.container.id = 'notificationContainer';
+            document.body.appendChild(this.container);
+        }
+    }
+
+    show(message, type = 'info') {
+        // Create notification element
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
-        
-        // Mobile-specific positioning
-        if (this.isMobile) {
-            notification.style.top = '10px';
-            notification.style.right = '10px';
-            notification.style.left = '10px';
-            notification.style.maxWidth = 'calc(100vw - 20px)';
-        }
+        notification.setAttribute('role', 'alert');
+        notification.setAttribute('aria-live', 'assertive');
 
+        // Icons for different types
         const icons = {
-            success: 'fa-check-circle',
-            error: 'fa-exclamation-circle',
-            info: 'fa-info-circle'
+            success: 'fas fa-check-circle',
+            error: 'fas fa-exclamation-circle',
+            info: 'fas fa-info-circle'
         };
 
-        const content = document.createElement('div');
-        content.className = 'notification-content';
+        notification.innerHTML = `
+            <i class="notification-icon ${icons[type] || icons.info}"></i>
+            <div class="notification-content">
+                ${message}
+            </div>
+            <button class="notification-close" aria-label="Close notification">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
 
-        const icon = document.createElement('i');
-        icon.className = `fas ${icons[type] || icons.info}`;
-        icon.setAttribute('aria-hidden', 'true');
-        icon.style.fontSize = this.isMobile ? '1.2rem' : '1rem';
+        // Add to container
+        this.container.appendChild(notification);
 
-        const span = document.createElement('span');
-        span.textContent = message;
-        span.style.fontSize = this.isMobile ? '0.9rem' : '1rem';
-        span.style.lineHeight = '1.4';
+        // Add close functionality
+        const closeBtn = notification.querySelector('.notification-close');
+        closeBtn.addEventListener('click', () => this.close(notification));
 
-        const closeBtn = document.createElement('button');
-        closeBtn.className = 'notification-close';
-        closeBtn.setAttribute('type', 'button');
-        closeBtn.setAttribute('aria-label', 'Close notification');
-        closeBtn.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>';
-        closeBtn.style.padding = this.isMobile ? '8px' : '5px';
-        closeBtn.style.minWidth = this.isMobile ? '44px' : 'auto'; // Better touch target
-        closeBtn.style.minHeight = this.isMobile ? '44px' : 'auto';
+        // Show with animation
+        setTimeout(() => notification.classList.add('show'), 10);
 
-        content.appendChild(icon);
-        content.appendChild(span);
-        content.appendChild(closeBtn);
+        // Auto-remove after 5 seconds
+        const autoRemove = setTimeout(() => this.close(notification), 5000);
 
-        notification.appendChild(content);
-
-        this.setupNotificationClose(notification, closeBtn);
-        return notification;
-    }
-
-    setupNotificationClose(notification, closeBtn) {
-        const closeHandler = (evt) => {
-            if (evt) {
-                evt.preventDefault();
-                evt.stopPropagation();
-            }
-            this.closeNotification(notification);
-        };
-
-        // Use pointer events for better mobile support
-        closeBtn.addEventListener('pointerdown', closeHandler);
-        closeBtn.addEventListener('click', closeHandler);
-        
-        // Also allow swipe to dismiss on mobile
-        if (this.isMobile) {
-            let touchStartX = 0;
-            notification.addEventListener('touchstart', (e) => {
-                touchStartX = e.touches[0].clientX;
-            }, { passive: true });
-            
-            notification.addEventListener('touchend', (e) => {
-                const touchEndX = e.changedTouches[0].clientX;
-                if (Math.abs(touchEndX - touchStartX) > 50) {
-                    this.closeNotification(notification);
-                }
-            }, { passive: true });
-        }
-    }
-
-    animateNotificationIn(notification) {
-        requestAnimationFrame(() => {
-            notification.classList.add('show');
+        // Clear timeout if user hovers
+        notification.addEventListener('mouseenter', () => clearTimeout(autoRemove));
+        notification.addEventListener('mouseleave', () => {
+            setTimeout(() => this.close(notification), 5000);
         });
     }
 
-    setupNotificationAutoRemove(notification) {
-        // Shorter timeout on mobile
-        const timeout = this.isMobile ? 4000 : 5000;
-        setTimeout(() => {
-            if (notification.parentElement) {
-                this.closeNotification(notification);
-            }
-        }, timeout);
-    }
-
-    closeNotification(notification) {
+    close(notification) {
         notification.classList.remove('show');
         setTimeout(() => {
-            if (notification.parentElement) {
+            if (notification.parentNode) {
                 notification.remove();
             }
         }, 300);
     }
+}
 
-    removeExistingNotifications() {
-        document.querySelectorAll('.notification').forEach(notification => {
-            this.closeNotification(notification);
-        });
-    }
-
-    // Styles Injection
-    injectStyles() {
-        if (document.getElementById('contact-form-styles')) return;
-
-        const styles = `
-            /* Base Form Styles */
-            #contactForm {
-                width: 100%;
-                box-sizing: border-box;
-            }
-            
-            /* Form Loading State */
-            .form-loading {
-                opacity: 0.7;
-                pointer-events: none;
-            }
-            
-            .btn:disabled {
-                opacity: 0.7;
-                cursor: not-allowed;
-            }
-            
-            /* Form Validation Styles */
-            .form-group {
-                position: relative;
-                margin-bottom: 1.5rem;
-            }
-            
-            @media (max-width: 768px) {
-                .form-group {
-                    margin-bottom: 1.2rem;
-                }
-            }
-            
-            .form-group input,
-            .form-group textarea {
-                width: 100%;
-                box-sizing: border-box;
-                -webkit-appearance: none;
-                border-radius: 8px;
-            }
-            
-            @media (max-width: 768px) {
-                .form-group input,
-                .form-group textarea {
-                    font-size: 16px !important; /* Prevents iOS zoom */
-                    padding: 0.8rem;
-                    min-height: 44px; /* Better touch target */
-                }
-                
-                .form-group textarea {
-                    min-height: 120px;
-                }
-            }
-            
-            .form-group input.error,
-            .form-group textarea.error {
-                border-color: #ef4444 !important;
-                background-color: rgba(239, 68, 68, 0.05);
-            }
-            
-            .form-group input.valid,
-            .form-group textarea.valid {
-                border-color: #22c55e !important;
-            }
-            
-            .field-error {
-                color: #ef4444;
-                font-size: 0.875rem;
-                margin-top: 0.25rem;
-                display: block;
-                animation: fadeInUp 0.3s ease;
-            }
-            
-            @media (max-width: 768px) {
-                .field-error {
-                    font-size: 0.8rem;
-                    margin-top: 0.2rem;
-                }
-            }
-            
-            .required {
-                color: #ef4444;
-                margin-left: 4px;
-            }
-            
-            @media (max-width: 768px) {
-                .required {
-                    font-size: 1.2em;
-                }
-            }
-            
-            /* Submit Button */
-            button[type="submit"] {
-                transition: all 0.3s ease;
-                min-height: 44px; /* Minimum touch target size */
-            }
-            
-            @media (max-width: 768px) {
-                button[type="submit"] {
-                    width: 100% !important;
-                    padding: 0.8rem 1.5rem !important;
-                    font-size: 1rem !important;
-                    margin-top: 1rem;
-                }
-            }
-            
-            /* Notifications - Mobile Responsive */
-            .notification {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                z-index: 10000;
-                max-width: 400px;
-                transform: translateX(400px);
-                transition: transform 0.3s ease;
-                font-family: inherit;
-                pointer-events: auto;
-            }
-            
-            @media (max-width: 768px) {
-                .notification {
-                    top: 10px;
-                    right: 10px;
-                    left: 10px;
-                    max-width: calc(100vw - 20px);
-                    transform: translateY(-100px);
-                }
-                
-                .notification.show {
-                    transform: translateY(0);
-                }
-            }
-            
-            .notification.show {
-                transform: translateX(0);
-            }
-            
-            .notification-content {
-                background: rgba(34, 197, 94, 0.95);
-                color: white;
-                padding: 15px 20px;
-                border-radius: 8px;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-                backdrop-filter: blur(10px);
-                border-left: 4px solid #16a34a;
-                min-height: 60px;
-            }
-            
-            @media (max-width: 768px) {
-                .notification-content {
-                    padding: 12px 15px;
-                    gap: 8px;
-                    min-height: 56px;
-                }
-            }
-            
-            .notification.error .notification-content {
-                background: rgba(239, 68, 68, 0.95);
-                border-left-color: #dc2626;
-            }
-            
-            .notification.info .notification-content {
-                background: rgba(59, 130, 246, 0.95);
-                border-left-color: #2563eb;
-            }
-            
-            .notification-close {
-                background: none;
-                border: none;
-                color: white;
-                cursor: pointer;
-                padding: 5px;
-                margin-left: auto;
-                transition: opacity 0.2s ease;
-                border-radius: 4px;
-                min-width: 32px;
-                min-height: 32px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            
-            @media (max-width: 768px) {
-                .notification-close {
-                    padding: 8px;
-                    min-width: 44px;
-                    min-height: 44px;
-                }
-            }
-            
-            .notification-close:hover,
-            .notification-close:active {
-                opacity: 0.8;
-                background: rgba(255, 255, 255, 0.1);
-            }
-            
-            .notification-content i {
-                flex-shrink: 0;
-            }
-            
-            .notification-content span {
-                flex: 1;
-                word-wrap: break-word;
-                overflow-wrap: break-word;
-                hyphens: auto;
-            }
-            
-            /* Animations */
-            @keyframes fadeInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(10px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-            
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-            
-            .fa-spinner {
-                animation: spin 1s linear infinite;
-            }
-            
-            /* Form input animations */
-            .form-group input,
-            .form-group textarea,
-            .form-group button {
-                transition: all 0.3s ease;
-            }
-            
-            .form-group input:focus,
-            .form-group textarea:focus {
-                transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
-            }
-            
-            @media (max-width: 768px) {
-                .form-group input:focus,
-                .form-group textarea:focus {
-                    transform: translateY(-1px);
-                    box-shadow: 0 3px 10px rgba(0, 255, 255, 0.2);
-                }
-            }
-            
-            /* Touch Feedback */
-            @media (max-width: 768px) {
-                button[type="submit"]:active {
-                    transform: scale(0.98);
-                }
-                
-                input:focus,
-                textarea:focus {
-                    outline: none;
-                    border-width: 2px !important;
-                }
-            }
-            
-            /* Accessibility and Reduced Motion */
-            @media (prefers-reduced-motion: reduce) {
-                .notification,
-                .form-group input,
-                .form-group textarea,
-                .form-group button,
-                .fa-spinner {
-                    transition: none;
-                    animation: none;
-                }
-            }
-            
-            /* Hide spin buttons on number inputs */
-            input[type="number"]::-webkit-inner-spin-button,
-            input[type="number"]::-webkit-outer-spin-button {
-                -webkit-appearance: none;
-                margin: 0;
-            }
-            
-            input[type="number"] {
-                -moz-appearance: textfield;
-            }
-            
-            /* Prevent text resize on mobile */
-            textarea {
-                resize: vertical;
-                min-height: 100px;
-            }
-            
-            @media (max-width: 768px) {
-                textarea {
-                    resize: vertical;
-                    min-height: 120px;
-                }
-            }
-        `;
-
-        const styleSheet = document.createElement('style');
-        styleSheet.id = 'contact-form-styles';
-        styleSheet.textContent = styles;
-        document.head.appendChild(styleSheet);
+// Current Year in Footer
+class CurrentYear {
+    constructor() {
+        const yearElement = document.getElementById('currentYear');
+        if (yearElement) {
+            yearElement.textContent = new Date().getFullYear();
+        }
     }
 }
 
-// Initialize the contact form manager
-new ContactFormManager();
+// Image Lazy Loading Helper
+class LazyLoader {
+    constructor() {
+        this.images = document.querySelectorAll('img[loading="lazy"]');
+        if ('IntersectionObserver' in window) {
+            this.initObserver();
+        } else {
+            this.loadAllImages();
+        }
+    }
+
+    initObserver() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src || img.src;
+                    img.classList.add('loaded');
+                    observer.unobserve(img);
+                }
+            });
+        }, {
+            rootMargin: '50px 0px',
+            threshold: 0.01
+        });
+
+        this.images.forEach(img => observer.observe(img));
+    }
+
+    loadAllImages() {
+        this.images.forEach(img => {
+            img.src = img.dataset.src || img.src;
+        });
+    }
+}
+
+// Touch Device Detection
+class TouchDetector {
+    constructor() {
+        this.isTouchDevice = 'ontouchstart' in window || 
+                           navigator.maxTouchPoints > 0 ||
+                           navigator.msMaxTouchPoints > 0;
+        
+        if (this.isTouchDevice) {
+            document.documentElement.classList.add('touch-device');
+            this.optimizeForTouch();
+        } else {
+            document.documentElement.classList.add('no-touch');
+        }
+    }
+
+    optimizeForTouch() {
+        // Increase tap target sizes
+        const tapElements = document.querySelectorAll('button, a, input[type="submit"]');
+        tapElements.forEach(el => {
+            el.style.minHeight = '44px';
+            el.style.minWidth = '44px';
+        });
+
+        // Prevent :hover styles on touch devices
+        const style = document.createElement('style');
+        style.textContent = `
+            @media (hover: none) and (pointer: coarse) {
+                .project-card:hover,
+                .analysis-card:hover,
+                .skill-tag:hover {
+                    transform: none !important;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+// Form Validation Patterns
+class FormValidator {
+    static patterns = {
+        email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        phone: /^[\+]?[1-9][\d]{0,15}$/,
+        url: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
+        name: /^[a-zA-Z\s]{2,50}$/
+    };
+
+    static validate(type, value) {
+        if (!value.trim()) return { valid: false, message: 'This field is required' };
+        
+        switch (type) {
+            case 'email':
+                if (!this.patterns.email.test(value)) {
+                    return { valid: false, message: 'Please enter a valid email address' };
+                }
+                break;
+                
+            case 'name':
+                if (!this.patterns.name.test(value)) {
+                    return { valid: false, message: 'Please enter a valid name (2-50 characters)' };
+                }
+                break;
+                
+            case 'message':
+                if (value.length < 10) {
+                    return { valid: false, message: 'Message must be at least 10 characters' };
+                }
+                break;
+        }
+        
+        return { valid: true, message: '' };
+    }
+}
+
+// Performance Optimizations
+class PerformanceOptimizer {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        // Debounce scroll events
+        this.debounceScroll();
+        
+        // Optimize images
+        this.optimizeImages();
+        
+        // Preload critical resources
+        this.preloadResources();
+    }
+
+    debounceScroll() {
+        let ticking = false;
+        const scrollEvents = ['scroll', 'resize'];
+
+        scrollEvents.forEach(event => {
+            window.addEventListener(event, () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        // Handle scroll-based operations here
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+        });
+    }
+
+    optimizeImages() {
+        // Convert images to WebP if supported
+        if (this.supportsWebP()) {
+            document.querySelectorAll('img[data-webp]').forEach(img => {
+                img.src = img.dataset.webp;
+            });
+        }
+    }
+
+    supportsWebP() {
+        const elem = document.createElement('canvas');
+        if (!!(elem.getContext && elem.getContext('2d'))) {
+            return elem.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+        }
+        return false;
+    }
+
+    preloadResources() {
+        const links = [
+            { rel: 'preload', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', as: 'style' },
+            { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+            { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: true }
+        ];
+
+        links.forEach(link => {
+            const el = document.createElement('link');
+            Object.assign(el, link);
+            document.head.appendChild(el);
+        });
+    }
+}
+
+// Initialize everything when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize core application
+    const app = new PortfolioApp();
+    
+    // Initialize additional utilities
+    new LazyLoader();
+    new TouchDetector();
+    new PerformanceOptimizer();
+    
+    // Add CSS animations
+    const style = document.createElement('style');
+    style.textContent = `
+        .animate-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Loading spinner animation */
+        .fa-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Form focus animations */
+        .form-group input:focus,
+        .form-group textarea:focus {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+            50% { box-shadow: 0 0 0 4px rgba(59, 130, 246, 0); }
+        }
+        
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+});
+
+// Handle service worker for PWA (optional)
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(error => {
+            console.log('Service Worker registration failed:', error);
+        });
+    });
+}
+
+// Error boundary for the application
+window.addEventListener('error', (event) => {
+    console.error('Application Error:', event.error);
+    
+    // Show user-friendly error message
+    const notification = new NotificationSystem();
+    notification.show(
+        'An unexpected error occurred. Please refresh the page or try again later.',
+        'error'
+    );
+    
+    // Prevent error from bubbling up
+    event.preventDefault();
+});
+
+// Export for testing (if using modules)
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        PortfolioApp,
+        ContactForm,
+        Navigation,
+        BackToTop,
+        NotificationSystem,
+        FormValidator
+    };
+}

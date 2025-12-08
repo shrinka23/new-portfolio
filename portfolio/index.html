@@ -2,289 +2,420 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Darwin Rhey Albo | AI Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Darwin Albo | Full Stack Developer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-   </script>
-    <script type="text/javascript">
-        
-   (function(){
-      emailjs.init({
-        publicKey: "YbY5lFTLcASLAHcMZp",
-      });
-   })();
-
-    </script>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
 </head>
 <body>
-    
-    <!-- Microchip Pattern -->
-    <div class="microchip-pattern">
-        <div class="chip chip-1"></div>
-        <div class="chip chip-2"></div>
-        <div class="chip chip-3"></div>
-        <div class="chip chip-4"></div>
-    </div>
-
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <nav class="navbar">
-                <a href="" class="logo">Port<span>folio</span></a>
-                <!-- Update your navigation in the header -->
-             <ul class="nav-links">
-                  <li><a href="#home">Home</a></li>
-                  <li><a href="#about">About</a></li>
-                  <li><a href="#projects">Projects</a></li>
-                 <li><a href="#analysis">Analysis</a></li> <!-- Add this line -->
-                 <li><a href="#contact">Contact</a></li>
-             </ul>
-                <div class="hamburger">
-                    <i class="fas fa-bars"></i>
-                </div>
-            </nav>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">Darwin<span>Albo</span></a>
+            
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span class="hamburger"></span>
+            </button>
+            
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#analysis" class="nav-link">Analysis</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
         </div>
-    </header>
+    </nav>
 
     <!-- Hero Section -->
-    <section class="hero" id="home">
+    <section id="home" class="hero">
         <div class="container">
             <div class="hero-content">
-                <h1>Darwin Albo</h1>
-                <p>Full Stack Developer & UI/UX Designer</p>
-                <a href="#projects" class="btn">View My Work</a>
+                <h1 class="hero-title">
+                    <span class="gradient-text">Darwin Albo</span>
+                </h1>
+                <h2 class="hero-subtitle">Full Stack Developer & UI/UX Designer</h2>
+                <p class="hero-description">
+                    I build digital experiences that are fast, responsive, and user-friendly.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">
+                        <i class="fas fa-code"></i> View Projects
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <i class="fas fa-envelope"></i> Contact Me
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="image-placeholder">
+                    <i class="fas fa-user-circle"></i>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- About Section -->
-    <section class="section" id="about">
+    <section id="about" class="about">
         <div class="container">
-            <div class="section-title">
-                <h2>About Me</h2>
-            </div>
-            <div class="about-content">
-                <div class="about-img">
-                    <img src="main.jfif" alt="Darwin Rhey Albo">
-                </div>
-                <div class="about-text">
-                    <h3>Hello! I'm Darwin Rhey Albo</h3>
-                    <p>I'm a passionate full-stack developer with over 5 years of experience creating digital solutions. I specialize in building responsive web applications with clean, efficient code.</p>
-                    <p>My expertise includes JavaScript, React, Node.js, and modern CSS frameworks. I enjoy turning complex problems into simple, beautiful designs.</p>
-                    <div class="skills">
-                        <span class="skill">HTML5</span>
-                        <span class="skill">CSS</span>
-                        <span class="skill">JavaScript</span>
-                        <span class="skill">Node.js</span>
-                        <span class="skill">MongoDB</span>
-                        <span class="skill">UI/UX Design</span>
-                        <span class="skill">Responsive Design</span>
+            <h2 class="section-title">About Me</h2>
+            
+            <div class="about-grid">
+                <div class="about-image">
+                    <div class="image-frame">
+                        <img src="main.jfif" alt="Darwin Albo" loading="lazy">
                     </div>
-                    <a href="#contact" class="btn" style="margin-top: 20px;">Get In Touch</a>
+                </div>
+                
+                <div class="about-content">
+                    <h3>Hello! I'm Darwin Rhey Albo</h3>
+                    <p>
+                        Passionate full-stack developer with 5+ years of experience creating 
+                        responsive web applications. I specialize in modern JavaScript 
+                        frameworks and clean, efficient code.
+                    </p>
+                    
+                    <div class="skills-section">
+                        <h4>Technical Skills</h4>
+                        <div class="skills-grid">
+                            <div class="skill-category">
+                                <h5>Frontend</h5>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">HTML5</span>
+                                    <span class="skill-tag">CSS3</span>
+                                    <span class="skill-tag">JavaScript</span>
+                                    <span class="skill-tag">React</span>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-category">
+                                <h5>Backend</h5>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Node.js</span>
+                                    <span class="skill-tag">PHP</span>
+                                    <span class="skill-tag">MongoDB</span>
+                                    <span class="skill-tag">MySQL</span>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-category">
+                                <h5>Tools</h5>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Git</span>
+                                    <span class="skill-tag">Figma</span>
+                                    <span class="skill-tag">VS Code</span>
+                                    <span class="skill-tag">Looker Studio</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="#contact" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Let's Connect
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Projects Section -->
-    <section class="section projects" id="projects">
+    <section id="projects" class="projects">
         <div class="container">
-            <div class="section-title">
-                <h2>My Projects</h2>
-            </div>
+            <h2 class="section-title">My Projects</h2>
+            <p class="section-subtitle">Here are some of my recent works</p>
+            
             <div class="projects-grid">
                 <!-- Project 1 -->
-                <div class="project-card">
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="E-commerce Website">
+                <article class="project-card">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                             alt="Gcash Payment Integration" loading="lazy">
                     </div>
-                    <div class="project-info">
-                        <h3>Gcash Payment Method</h3>
-                        <p>Integrating GCash with PHP involves using a payment gateway like PayMongo to handle transactions. Your PHP code sends payment details to the gateway, which returns a checkout link that redirects users to the GCash payment page.</p>
-                        <div class="project-tags">
-                            <span class="project-tag">PHP</span>
-                            <span class="project-tag">Sql</span>
-                            <span class="project-tag">MongoDb</span>
+                    <div class="project-content">
+                        <h3>GCash Payment Integration</h3>
+                        <p>
+                            Integrated GCash with PHP using PayMongo API for seamless 
+                            payment processing in e-commerce applications.
+                        </p>
+                        <div class="project-tech">
+                            <span>PHP</span>
+                            <span>PayMongo API</span>
+                            <span>MySQL</span>
                         </div>
-                        <a href="https://github.com/shrinka23/gcash-paymongo" class="btn">View Code</a>
-                    </div>
-                </div>
-                
-                <!-- Project 2 -->
-                <div class="project-card">
-                    <div class="project-img">
-                        <img src="page.jfif" alt="Task Management App">
-                    </div>
-                    <div class="project-info">
-                        <h3>Landing Page For Mabini Tourist Spot</h3>
-                        <p>Integrating GCash into a Mabini tourist spot landing page allows visitors to easily pay for bookings, tours, or entrance fees online. Using a payment gateway like PayMongo, your PHP backend can generate a secure GCash checkout link.</p>
-                        <div class="project-tags">
-                            <span class="project-tag">HTML</span>
-                            <span class="project-tag">CSS</span>
-                            <span class="project-tag">JAVA</span>
+                        <div class="project-links">
+                            <a href="http://localhost/paymongo-payment-method/store.php" 
+                               class="btn btn-small" 
+                               target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
                         </div>
-                        <a href="https://travel-landing-page-dusky-nu.vercel.app/?fbclid=IwY2xjawOjLxBleHRuA2FlbQIxMABicmlkETF5S2xNcjJCMjJtUmZiM2pic3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHjmuR8GYTt5p_QB5DmXU1GZCPME1qYYROOzR7kUDnC-4wGO55EmcHKg3xUmT_aem_lp5Nwj9NRymTxDj69ix9uQ" class="btn">View Project</a>
                     </div>
-                </div>
-                
-                <!-- Project 3 -->
-                <div class="project-card">
-                    <div class="project-img">
-                        <img src="portfolio.jfif" alt="User Portfolio">
-                    </div>
-                    <div class="project-info">
-                        <h3>User Portfolio</h3>
-                        <p>This portfolio showcases the developer's work on the Mabini Tourist Spot website. It highlights their skills in web design, PHP development, and digital tourism promotion.</p>
-                        <div class="project-tags">
-                            <span class="project-tag">HTML</span>
-                            <span class="project-tag">CSS</span>
-                            <span class="project-tag">JAVA</span>
-                        </div>
-                        <a href="https://github.com/shrinka23/new-portfolio/tree/main/portfolio" class="btn">View Project</a>
-                    </div>
-                </div>
+                </article>
 
-                 <!-- Project 4 -->
-                <div class="project-card">
-                    <div class="project-img">
-                        <img src="pasta.png" alt="E-commerce Website">
+                <!-- Project 2 -->
+                <article class="project-card">
+                    <div class="project-image">
+                        <img src="page.jfif" 
+                             alt="Tourist Spot Landing Page" loading="lazy">
                     </div>
-                    <div class="project-info">
-                        <h3>Pasta Presto E-commerce</h3>
-                        <p>Pasta Presto E-commerce is an online store that sells pasta and related Italian food products, offering fast ordering and convenient delivery to customers. Your PHP code sends payment details to the gateway, which returns a checkout link that redirects users to the GCash payment page.</p>
-                        <div class="project-tags">
-                            <span class="project-tag">PHP</span>
-                            <span class="project-tag">Sql</span>
-                            <span class="project-tag">Xammp</span>
+                    <div class="project-content">
+                        <h3>Mabini Tourist Spot</h3>
+                        <p>
+                            Responsive landing page for Mabini tourist destinations with 
+                            booking functionality and GCash integration.
+                        </p>
+                        <div class="project-tech">
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>JavaScript</span>
                         </div>
-                        <a href="https://github.com/shrinka23/pasta.php" class="btn">View Code</a>
+                        <div class="project-links">
+                            <a href="https://t-est-rose.vercel.app/" 
+                               class="btn btn-small" 
+                               target="_blank">
+                                <i class="fas fa-external-link-alt"></i> View Project
+                            </a>
+                        </div>
                     </div>
-                </div>
-                
+                </article>
+
+                <!-- Project 3 -->
+                <article class="project-card">
+                    <div class="project-image">
+                        <img src="portfolio.jfif" 
+                             alt="Portfolio Website" loading="lazy">
+                    </div>
+                    <div class="project-content">
+                        <h3>Portfolio Website</h3>
+                        <p>
+                            Modern, responsive portfolio website showcasing projects and 
+                            skills with contact form functionality.
+                        </p>
+                        <div class="project-tech">
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>JavaScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/shrinka23/new-portfolio" 
+                               class="btn btn-small" 
+                               target="_blank">
+                                <i class="fab fa-github"></i> Source Code
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 4 -->
+                <article class="project-card">
+                    <div class="project-image">
+                        <img src="pasta.png" 
+                             alt="E-commerce Website" loading="lazy">
+                    </div>
+                    <div class="project-content">
+                        <h3>Pasta Presto E-commerce</h3>
+                        <p>
+                            Full-featured e-commerce platform for Italian food products 
+                            with cart, checkout, and payment processing.
+                        </p>
+                        <div class="project-tech">
+                            <span>PHP</span>
+                            <span>MySQL</span>
+                            <span>XAMPP</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/shrinka23/pasta.php" 
+                               class="btn btn-small" 
+                               target="_blank">
+                                <i class="fab fa-github"></i> Source Code
+                            </a>
+                        </div>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
 
-    <!-- Add this section after the Projects section and before the Contact section -->
-<section class="section analysis" id="analysis">
-    <div class="container">
-        <div class="section-title">
-            <h2>Data Analysis</h2>
-        </div>
-        
-        <div class="analysis-intro">
-            <p>I transform raw data into actionable insights through comprehensive analysis and visualization. Below are my interactive data dashboards created with Google Looker Studio.</p>
-        </div>
-        
-        <div class="looker-reports">
-            <!-- Report 1 -->
-            <div class="report-card">
-                <div class="report-preview">
-                    <div class="report-image">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Data Analysis Dashboard">
+    <!-- Analysis Section -->
+    <section id="analysis" class="analysis">
+        <div class="container">
+            <h2 class="section-title">Data Analysis</h2>
+            <p class="section-subtitle">
+                Transforming data into actionable insights with interactive dashboards
+            </p>
+            
+            <div class="analysis-grid">
+                <div class="analysis-card">
+                    <div class="analysis-preview">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                             alt="Sales Dashboard" loading="lazy">
+                        <div class="analysis-overlay">
+                            <a href="https://lookerstudio.google.com/reporting/8d65bf73-e464-4a8a-ac6e-3bc9eb0afa0b" 
+                               class="btn" 
+                               target="_blank">
+                                Open Dashboard
+                            </a>
+                        </div>
                     </div>
-                    <div class="report-overlay">
-                        <a href="https://lookerstudio.google.com/reporting/8d65bf73-e464-4a8a-ac6e-3bc9eb0afa0b" class="btn" target="_blank">View Dashboard</a>
-                    </div>
-                </div>
-                <div class="report-info">
-                    <h3>Sales Performance Dashboard</h3>
-                    <p>Comprehensive analysis of sales metrics, trends, and performance indicators across multiple regions.</p>
-                    <div class="report-tags">
-                        <span class="report-tag">Sales Analytics</span>
-                        <span class="report-tag">Performance Metrics</span>
-                        <span class="report-tag">Regional Analysis</span>
+                    <div class="analysis-content">
+                        <h3>Sales Performance Dashboard</h3>
+                        <p>
+                            Interactive dashboard tracking sales metrics, trends, and 
+                            performance indicators across multiple regions.
+                        </p>
+                        <div class="analysis-tags">
+                            <span>Google Looker Studio</span>
+                            <span>Data Visualization</span>
+                            <span>Business Intelligence</span>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            
-        <div class="analysis-cta">
-            <p>Need custom analytics for your business?</p>
-            <a href="#contact" class="btn">Get In Touch</a>
+            <div class="analysis-cta">
+                <p>Need custom analytics for your business?</p>
+                <a href="#contact" class="btn btn-primary">
+                    <i class="fas fa-chart-line"></i> Get Analytics Solutions
+                </a>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Contact Section -->
-    <section class="section" id="contact">
+    <section id="contact" class="contact">
         <div class="container">
-            <div class="section-title">
-                <h2>Contact Me</h2>
-            </div>
-            <div class="contact-content">
+            <h2 class="section-title">Get In Touch</h2>
+            <p class="section-subtitle">
+                Have a project in mind? Let's work together!
+            </p>
+            
+            <div class="contact-grid">
                 <div class="contact-info">
                     <div class="contact-item">
                         <div class="contact-icon">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
-                        <div class="contact-text">
+                        <div>
                             <h4>Location</h4>
                             <p>Malimatoc 1, Mabini Batangas</p>
                         </div>
                     </div>
+                    
                     <div class="contact-item">
                         <div class="contact-icon">
                             <i class="fas fa-envelope"></i>
                         </div>
-                        <div class="contact-text">
+                        <div>
                             <h4>Email</h4>
                             <p>qdarwinrhey@gmail.com</p>
                         </div>
                     </div>
+                    
                     <div class="contact-item">
                         <div class="contact-icon">
                             <i class="fas fa-phone"></i>
                         </div>
-                        <div class="contact-text">
+                        <div>
                             <h4>Phone</h4>
-                            <p>+63 (993) 882-1993</p>
+                            <p>+63 993 882 1993</p>
                         </div>
                     </div>
+                    
+                    <div class="social-links">
+                        <a href="https://github.com/shrinka23" target="_blank" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://x.com/DarwinAlbo2778" target="_blank" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.instagram.com/kiyowei99/" target="_blank" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
                 </div>
-                <div class="contact-form">
-                     <form id="contactForm" action="https://formspree.io/f/mkgqqaly" method="POST">
+                
+                <div class="contact-form-container">
+                    <form id="contactForm" class="contact-form">
                         <div class="form-group">
-                            <label for="name">Your Name</label>
-                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
+                            <label for="name">Full Name *</label>
+                            <input type="text" 
+                                   id="name" 
+                                   name="name" 
+                                   placeholder="Enter your name"
+                                   required
+                                   minlength="2">
+                            <span class="error-message"></span>
                         </div>
+                        
                         <div class="form-group">
-                            <label for="email">Your Email</label>
-                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
+                            <label for="email">Email Address *</label>
+                            <input type="email" 
+                                   id="email" 
+                                   name="email" 
+                                   placeholder="Enter your email"
+                                   required>
+                            <span class="error-message"></span>
                         </div>
+                        
                         <div class="form-group">
-                            <label for="subject">Subject</label>
-                            <input type="text" id="subject" name="subject" class="form-control" placeholder="Enter subject" required>
+                            <label for="subject">Subject *</label>
+                            <input type="text" 
+                                   id="subject" 
+                                   name="subject" 
+                                   placeholder="What is this about?"
+                                   required
+                                   minlength="5">
+                            <span class="error-message"></span>
                         </div>
+                        
                         <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" class="form-control" placeholder="Enter your message" required></textarea>
+                            <label for="message">Message *</label>
+                            <textarea id="message" 
+                                      name="message" 
+                                      rows="5" 
+                                      placeholder="Tell me about your project..."
+                                      required
+                                      minlength="10"></textarea>
+                            <span class="error-message"></span>
                         </div>
-                        <button type="submit" class="btn">Send Message</button>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <span class="btn-text">Send Message</span>
+                            <span class="btn-loader" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i> Sending...
+                            </span>
+                        </button>
                     </form>
                 </div>
             </div>
         </div>
     </section>
+
     <!-- Footer -->
-    <footer>
+    <footer class="footer">
         <div class="container">
-            <div class="social-links">
-                <a href="https://github.com/shrinka23"><i class="fab fa-github"></i></a>
-                <a href="https://x.com/DarwinAlbo2778"><i class="fab fa-twitter"></i></a>
-                <a href="https://www.instagram.com/kiyowei99/"><i class="fab fa-instagram"></i></a>
+            <div class="footer-content">
+                <a href="#home" class="footer-logo">Darwin<span>Albo</span></a>
+                <p class="footer-text">
+                    Building digital solutions with clean code and creative design.
+                </p>
+                <p class="copyright">
+                    &copy; <span id="currentYear"></span> Darwin Albo. All rights reserved.
+                </p>
             </div>
-            <p class="copyright">&copy; 2025 Darwin Albo. All Rights Reserved.</p>
         </div>
     </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer"></div>
+
     <script src="script.js"></script>
 </body>
-
 </html>
-
-
-

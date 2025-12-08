@@ -696,3 +696,108 @@ if ('performance' in window) {
         }
     });
 }
+// Add this method to your ContactFormManager class
+setupHeaderScrollEffect() {
+    const header = document.querySelector('header');
+    const navbar = document.querySelector('.navbar');
+    
+    if (!header || !navbar) return;
+    
+    let lastScrollTop = 0;
+    const scrollThreshold = 100;
+    
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Add/remove scrolled class based on scroll position
+        if (scrollTop > scrollThreshold) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+        
+        // Optional: Hide/show header on scroll (uncomment if needed)
+        /*
+        if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
+            // Scrolling down
+            header.style.transform = 'translateY(-100%)';
+        } else {
+            // Scrolling up
+            header.style.transform = 'translateY(0)';
+        }
+        */
+        
+        lastScrollTop = scrollTop;
+    });
+    
+    // Initial check
+    if (window.pageYOffset > scrollThreshold) {
+        header.classList.add('scrolled');
+    }
+}
+
+// Then add this to your init() method
+init() {
+    this.setupEventListeners();
+    this.injectStyles();
+    this.setupMobileNavigation();
+    this.setupMobileOptimizations();
+    this.updateCopyrightYear();
+    this.setupHeaderScrollEffect(); // Add this line
+    this.setupHeaderResponsive();   // Add this line too
+}
+
+// Add responsive header adjustment
+setupHeaderResponsive() {
+    const header = document.querySelector('header');
+    
+    if (!header) return;
+    
+    // Adjust header on window resize
+    window.addEventListener('resize', () => {
+        this.adjustHeaderHeight();
+    });
+    
+    // Initial adjustment
+    this.adjustHeaderHeight();
+}
+
+adjustHeaderHeight() {
+    const header = document.querySelector('header');
+    const navLinks = document.querySelector('.nav-links');
+    const hamburger = document.querySelector('.hamburger');
+    
+    if (!header) return;
+    
+    const width = window.innerWidth;
+    
+    if (width >= 1200) {
+        // Desktop large
+        header.style.height = '75px';
+        if (navLinks) navLinks.style.top = '75px';
+    } else if (width >= 992) {
+        // Desktop medium
+        header.style.height = '65px';
+        if (navLinks) navLinks.style.top = '65px';
+    } else if (width >= 768) {
+        // Tablet
+        header.style.height = '65px';
+        if (navLinks) navLinks.style.top = '65px';
+    } else if (width >= 576) {
+        // Mobile large
+        header.style.height = '60px';
+        if (navLinks) navLinks.style.top = '60px';
+    } else {
+        // Mobile small
+        header.style.height = '55px';
+        if (navLinks) navLinks.style.top = '55px';
+    }
+    
+    // Adjust hero section padding
+    const hero = document.querySelector('.hero');
+    if (hero) {
+        const headerHeight = header.offsetHeight;
+        hero.style.paddingTop = `${headerHeight + 20}px`;
+    }
+}
+

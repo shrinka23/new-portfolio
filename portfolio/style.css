@@ -1,458 +1,29 @@
-:root {
-    --primary: #00f7ff;
-    --secondary: #7b00ff;
-    --accent: #ff00c8;
-    --dark: #0a0a1a;
-    --darker: #050510;
-    --light: #e0e0ff;
-    --card-bg: rgba(16, 16, 32, 0.8);
-    --glow: 0 0 10px var(--primary), 0 0 20px var(--primary);
-    --square-size: min(350px, 100%);
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    font-family: 'Exo 2', sans-serif;
-    background-color: var(--darker);
-    color: var(--light);
-    line-height: 1.6;
-    overflow-x: hidden;
-    background-image: 
-        radial-gradient(circle at 10% 20%, rgba(123, 0, 255, 0.1) 0%, transparent 20%),
-        radial-gradient(circle at 90% 80%, rgba(0, 247, 255, 0.1) 0%, transparent 20%),
-        linear-gradient(to bottom, var(--darker), var(--dark));
-    position: relative;
-    min-height: 100vh;
-}
-
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%2300f7ff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-    opacity: 0.3;
-    z-index: -1;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    width: 100%;
-}
-
-/* Header */
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    background: rgba(10, 10, 26, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(0, 247, 255, 0.2);
-    transition: all 0.3s ease;
-}
-
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 0;
-    min-height: 70px;
-}
-
-.logo {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.2rem, 4vw, 1.8rem);
-    font-weight: 900;
-    color: var(--light);
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    position: relative;
-    z-index: 1001;
-}
-
-.logo span {
-    color: var(--primary);
-    text-shadow: var(--glow);
-}
-
-.logo::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--primary);
-    box-shadow: var(--glow);
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.3s ease;
-}
-
-.logo:hover::after {
-    transform: scaleX(1);
-    transform-origin: left;
-}
-
-.nav-links {
-    display: flex;
-    list-style: none;
-    gap: 20px;
-}
-
-.nav-links li {
-    margin-left: 0;
-}
-
-.nav-links a {
-    color: var(--light);
-    text-decoration: none;
-    font-weight: 500;
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
-    position: relative;
-    padding: 5px 0;
-    transition: color 0.3s ease;
-    white-space: nowrap;
-}
-
-.nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--primary);
-    box-shadow: var(--glow);
-    transition: width 0.3s ease;
-}
-
-.nav-links a:hover {
-    color: var(--primary);
-}
-
-.nav-links a:hover::after {
-    width: 100%;
-}
-
-.hamburger {
-    display: none;
-    cursor: pointer;
-    font-size: 1.5rem;
-    color: var(--light);
-    background: none;
-    border: none;
-    padding: 5px;
-    z-index: 1001;
-}
-
-/* Hero Section */
-.hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-    padding-top: 80px;
-}
-
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 30% 50%, rgba(123, 0, 255, 0.2) 0%, transparent 50%),
-                radial-gradient(circle at 70% 20%, rgba(0, 247, 255, 0.2) 0%, transparent 50%);
-    z-index: -1;
-}
-
-.hero-content {
-    max-width: 800px;
-    text-align: center;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-    padding: 20px;
-}
-
-.hero-content h1 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(2rem, 8vw, 4rem);
-    font-weight: 900;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: clamp(1px, 2vw, 3px);
-    background: linear-gradient(to right, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    text-shadow: 0 0 15px rgba(0, 247, 255, 0.5);
-    position: relative;
-    line-height: 1.2;
-}
-
-.hero-content h1::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(200px, 80%);
-    height: 3px;
-    background: linear-gradient(to right, transparent, var(--primary), transparent);
-    box-shadow: var(--glow);
-}
-
-.hero-content p {
-    font-size: clamp(1rem, 3vw, 1.5rem);
-    margin-bottom: 40px;
-    color: var(--light);
-    font-weight: 300;
-    line-height: 1.5;
-}
-
-/* Buttons */
-.btn {
-    display: inline-block;
-    padding: clamp(10px, 2vw, 12px) clamp(20px, 3vw, 30px);
-    background: transparent;
-    color: var(--primary);
-    border: 2px solid var(--primary);
-    border-radius: 0;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 700;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    box-shadow: var(--glow);
-    cursor: pointer;
-    font-size: clamp(0.8rem, 2vw, 1rem);
-    white-space: nowrap;
-}
-
-.btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 247, 255, 0.4), transparent);
-    transition: left 0.5s ease;
-}
-
-.btn:hover {
-    background: var(--primary);
-    color: var(--dark);
-    box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
-}
-
-.btn:hover::before {
-    left: 100%;
-}
-
-/* Sections */
-.section {
-    padding: clamp(50px, 8vw, 100px) 0;
-    position: relative;
-}
-
-.section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        linear-gradient(90deg, transparent 98%, rgba(0, 247, 255, 0.1) 100%),
-        linear-gradient(0deg, transparent 98%, rgba(0, 247, 255, 0.1) 100%);
-    background-size: 30px 30px;
-    opacity: 0.3;
-    z-index: -1;
-}
-
-.section-title {
-    text-align: center;
-    margin-bottom: clamp(30px, 5vw, 60px);
-    padding: 0 10px;
-}
-
-.section-title h2 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.8rem, 5vw, 2.5rem);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--light);
-    position: relative;
-    display: inline-block;
-    line-height: 1.3;
-}
-
-.section-title h2::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(100px, 80%);
-    height: 3px;
-    background: var(--primary);
-    box-shadow: var(--glow);
-}
-
-/* About Section */
-.about-content {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 40px;
-    align-items: center;
-}
-
-.about-img {
-    position: relative;
-    border: 2px solid var(--primary);
-    box-shadow: var(--glow);
-    overflow: hidden;
-    border-radius: 5px;
-    max-width: 400px;
-    margin: 0 auto;
-}
-
-.about-img::before {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
-    border: 1px solid var(--secondary);
-    z-index: -1;
-    border-radius: 5px;
-    opacity: 0.7;
-}
-
-.about-img img {
-    width: 100%;
-    height: auto;
-    display: block;
-    filter: grayscale(30%);
-    transition: transform 0.5s ease;
-    aspect-ratio: 1/1;
-    object-fit: cover;
-}
-
-.about-img:hover img {
-    transform: scale(1.05);
-}
-
-.about-text {
-    text-align: center;
-}
-
-.about-text h3 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.5rem, 4vw, 1.8rem);
-    margin-bottom: 20px;
-    color: var(--primary);
-}
-
-.about-text p {
-    margin-bottom: 20px;
-    font-size: clamp(1rem, 2vw, 1.1rem);
-    line-height: 1.6;
-}
-
-.skills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 30px;
-    justify-content: center;
-}
-
-.skill {
-    padding: 8px 15px;
-    background: var(--card-bg);
-    border: 1px solid rgba(0, 247, 255, 0.3);
-    border-radius: 3px;
-    font-size: clamp(0.8rem, 2vw, 0.9rem);
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-}
-
-.skill::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 247, 255, 0.2), transparent);
-    transition: left 0.5s ease;
-}
-
-.skill:hover {
-    border-color: var(--primary);
-    box-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
-    transform: translateY(-3px);
-}
-
-.skill:hover::before {
-    left: 100%;
-}
-
-/* Projects Section */
+/* Projects Section - FIXED */
 .projects {
     background: rgba(5, 5, 16, 0.7);
+    position: relative;
 }
 
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(var(--square-size), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(350px, 100%), 1fr));
     gap: 30px;
     padding: 0 10px;
     justify-content: center;
+    align-items: stretch; /* Make all cards same height */
 }
 
 .project-card {
     background: var(--card-bg);
     border: 1px solid rgba(0, 247, 255, 0.2);
-    border-radius: 5px;
+    border-radius: 8px;
     overflow: hidden;
     transition: all 0.3s ease;
     position: relative;
-    height: var(--square-size);
-    width: 100%;
-    max-width: var(--square-size);
-    margin: 0 auto;
     display: flex;
     flex-direction: column;
+    height: 100%; /* Full height of grid cell */
+    min-height: 380px; /* Minimum height */
     z-index: 1;
 }
 
@@ -469,11 +40,11 @@ header {
     z-index: 1;
 }
 
-/* Fixed: Project card grows on hover */
 .project-card:hover {
-    transform: scale(1.05);
+    transform: translateY(-10px) scale(1.02);
     border-color: var(--primary);
-    box-shadow: 0 15px 40px rgba(0, 247, 255, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 247, 255, 0.3), 
+                0 0 30px rgba(0, 247, 255, 0.2);
     z-index: 10;
 }
 
@@ -481,12 +52,13 @@ header {
     opacity: 1;
 }
 
+/* FIXED: Project image section */
 .project-img {
-    height: 40%;
-    min-height: 140px;
-    overflow: hidden;
     position: relative;
-    flex-shrink: 0;
+    overflow: hidden;
+    flex-shrink: 0; /* Prevent image from shrinking */
+    height: 180px; /* Fixed height for images */
+    min-height: 180px; /* Minimum height */
 }
 
 .project-img::after {
@@ -496,65 +68,65 @@ header {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, transparent 70%, var(--card-bg) 100%);
+    background: linear-gradient(to bottom, transparent 50%, rgba(5, 5, 16, 0.7) 100%);
+    z-index: 1;
 }
 
 .project-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    transition: transform 0.8s ease;
 }
 
 .project-card:hover .project-img img {
     transform: scale(1.1);
 }
 
+/* FIXED: Project info section - now with proper spacing */
 .project-info {
-    padding: 20px;
+    padding: 25px;
     position: relative;
     z-index: 2;
-    flex-grow: 1;
+    flex: 1; /* Take remaining space */
     display: flex;
     flex-direction: column;
-    height: 60%;
-    min-height: 210px;
+    min-height: 200px;
 }
 
+/* FIXED: Project title - now shows full text */
 .project-info h3 {
     font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.2rem, 3vw, 1.4rem);
-    margin-bottom: 12px;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
     color: var(--primary);
-    line-height: 1.3;
-    min-height: 2.6em;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    line-height: 1.4;
+    min-height: auto; /* Remove fixed height */
+    overflow: visible; /* Show all text */
+    display: block; /* Remove ellipsis */
     text-shadow: 0 0 5px rgba(0, 247, 255, 0.5);
 }
 
+/* FIXED: Project description - shows more text */
 .project-info p {
-    margin-bottom: 15px;
-    font-size: clamp(0.9rem, 2vw, 1rem);
+    margin-bottom: 20px;
+    font-size: 1rem;
     color: var(--light);
-    line-height: 1.5;
+    line-height: 1.6;
     flex-grow: 1;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
+    overflow: visible; /* Show all text */
+    display: block; /* Remove ellipsis */
     opacity: 0.9;
+    min-height: 80px; /* Reserve space for text */
 }
 
+/* FIXED: Project tags */
 .project-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 15px;
-    min-height: 30px;
+    margin-bottom: 20px;
+    min-height: 32px;
     align-items: center;
 }
 
@@ -563,150 +135,82 @@ header {
     background: rgba(123, 0, 255, 0.25);
     border: 1px solid rgba(123, 0, 255, 0.6);
     border-radius: 3px;
-    font-size: clamp(0.75rem, 2vw, 0.85rem);
+    font-size: 0.85rem;
     color: var(--light);
     white-space: nowrap;
-    max-height: 32px;
     font-weight: 500;
     text-shadow: 0 0 3px rgba(123, 0, 255, 0.5);
+    transition: all 0.3s ease;
 }
 
-/* Fixed: Properly aligned button */
+.project-tag:hover {
+    background: rgba(123, 0, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+/* FIXED: Button alignment - now properly at bottom */
 .project-info .btn {
-    margin-top: auto;
+    margin-top: auto; /* Pushes button to bottom */
     width: auto;
     align-self: flex-start;
-    font-size: clamp(0.85rem, 2vw, 0.95rem);
-    padding: 10px 20px;
+    font-size: 0.95rem;
+    padding: 10px 25px;
+    min-width: 140px;
     text-align: center;
-    display: inline-block;
+    position: relative;
 }
 
-/* Analysis Section */
-.analysis {
-    background: rgba(10, 10, 26, 0.7);
-}
-
-.analysis-intro {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto clamp(30px, 5vw, 50px);
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    color: var(--light);
-    padding: 0 20px;
-    line-height: 1.6;
-}
-
-.looker-reports {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(var(--square-size), 1fr));
-    gap: 30px;
-    margin-bottom: clamp(30px, 5vw, 50px);
-    padding: 0 10px;
-    justify-content: center;
-}
-
+/* Apply same fixes to Analysis section */
 .report-card {
     background: var(--card-bg);
     border: 1px solid rgba(0, 247, 255, 0.2);
-    border-radius: 5px;
+    border-radius: 8px;
     overflow: hidden;
     transition: all 0.3s ease;
     position: relative;
-    height: var(--square-size);
-    width: 100%;
-    max-width: var(--square-size);
-    margin: 0 auto;
     display: flex;
     flex-direction: column;
+    height: 100%;
+    min-height: 380px;
     z-index: 1;
-}
-
-/* Fixed: Report card grows on hover */
-.report-card:hover {
-    transform: scale(1.05);
-    border-color: var(--primary);
-    box-shadow: 0 15px 40px rgba(0, 247, 255, 0.3);
-    z-index: 10;
 }
 
 .report-preview {
     position: relative;
-    height: 40%;
-    min-height: 140px;
     overflow: hidden;
     flex-shrink: 0;
-}
-
-.report-image {
-    width: 100%;
-    height: 100%;
-}
-
-.report-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-
-.report-card:hover .report-image img {
-    transform: scale(1.1);
-}
-
-.report-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(5, 5, 16, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.report-card:hover .report-overlay {
-    opacity: 1;
+    height: 180px;
+    min-height: 180px;
 }
 
 .report-info {
-    padding: 20px;
-    flex-grow: 1;
+    padding: 25px;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    height: 60%;
-    min-height: 210px;
+    min-height: 200px;
 }
 
 .report-info h3 {
     font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.2rem, 3vw, 1.4rem);
-    margin-bottom: 12px;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
     color: var(--primary);
-    line-height: 1.3;
-    min-height: 2.6em;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-shadow: 0 0 5px rgba(0, 247, 255, 0.5);
+    line-height: 1.4;
+    overflow: visible;
+    display: block;
 }
 
 .report-info p {
-    margin-bottom: 15px;
-    font-size: clamp(0.9rem, 2vw, 1rem);
+    margin-bottom: 20px;
+    font-size: 1rem;
     color: var(--light);
-    line-height: 1.5;
+    line-height: 1.6;
     flex-grow: 1;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
+    overflow: visible;
+    display: block;
     opacity: 0.9;
+    min-height: 80px;
 }
 
 .report-tags {
@@ -714,588 +218,137 @@ header {
     flex-wrap: wrap;
     gap: 8px;
     margin-top: auto;
-    min-height: 30px;
+    margin-bottom: 20px;
+    min-height: 32px;
     align-items: center;
 }
 
-.report-tag {
-    padding: 6px 12px;
-    background: rgba(123, 0, 255, 0.25);
-    border: 1px solid rgba(123, 0, 255, 0.6);
-    border-radius: 3px;
-    font-size: clamp(0.75rem, 2vw, 0.85rem);
-    color: var(--light);
-    white-space: nowrap;
-    max-height: 32px;
-    font-weight: 500;
-    text-shadow: 0 0 3px rgba(123, 0, 255, 0.5);
-}
-
-/* Fixed: Properly aligned button in report overlay */
-.report-overlay .btn {
-    z-index: 2;
-    font-size: clamp(0.85rem, 2vw, 0.95rem);
-    padding: 10px 20px;
-    text-align: center;
-    display: inline-block;
-}
-
-.analysis-cta {
-    text-align: center;
-    padding: 30px;
-    background: var(--card-bg);
-    border-radius: 5px;
-    border: 1px solid rgba(0, 247, 255, 0.2);
-    margin: 0 20px;
-}
-
-.analysis-cta p {
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    margin-bottom: 20px;
-    color: var(--light);
-}
-
-/* Contact Section */
-.contact-content {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 40px;
-}
-
-.contact-info {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    order: 2;
-}
-
-.contact-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 15px;
-}
-
-.contact-icon {
-    width: 50px;
-    height: 50px;
-    background: var(--card-bg);
-    border: 1px solid rgba(0, 247, 255, 0.3);
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    color: var(--primary);
-    box-shadow: 0 0 10px rgba(0, 247, 255, 0.2);
-    flex-shrink: 0;
-}
-
-.contact-text h4 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1rem, 3vw, 1.2rem);
-    margin-bottom: 5px;
-    color: var(--primary);
-}
-
-.contact-text p {
-    color: var(--light);
-    font-size: clamp(0.9rem, 2vw, 1rem);
-    line-height: 1.5;
-}
-
-.contact-form {
-    background: var(--card-bg);
-    padding: 25px;
-    border: 1px solid rgba(0, 247, 255, 0.2);
-    border-radius: 5px;
-    order: 1;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: var(--light);
-    font-size: clamp(0.9rem, 2vw, 1rem);
-}
-
-.form-control {
-    width: 100%;
-    padding: 12px 15px;
-    background: rgba(10, 10, 26, 0.7);
-    border: 1px solid rgba(0, 247, 255, 0.3);
-    border-radius: 3px;
-    color: var(--light);
-    font-family: 'Exo 2', sans-serif;
-    transition: all 0.3s ease;
-    font-size: clamp(0.9rem, 2vw, 1rem);
-}
-
-.form-control:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
-}
-
-textarea.form-control {
-    min-height: 150px;
-    resize: vertical;
-}
-
-/* Footer */
-footer {
-    background: rgba(5, 5, 16, 0.9);
-    padding: 40px 0;
-    text-align: center;
-    border-top: 1px solid rgba(0, 247, 255, 0.2);
-}
-
-.social-links {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
-.social-links a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: var(--card-bg);
-    border: 1px solid rgba(0, 247, 255, 0.3);
-    border-radius: 3px;
-    color: var(--primary);
-    font-size: 1.2rem;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-}
-
-.social-links a:hover {
-    background: var(--primary);
-    color: var(--dark);
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 247, 255, 0.4);
-}
-
-.copyright {
-    color: var(--light);
-    font-size: clamp(0.8rem, 2vw, 0.9rem);
-    padding: 0 20px;
-}
-
-/* Microchip Pattern */
-.microchip-pattern {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: -1;
-    opacity: 0.1;
-}
-
-.chip {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background: 
-        linear-gradient(45deg, transparent 45%, var(--primary) 50%, transparent 55%),
-        linear-gradient(-45deg, transparent 45%, var(--primary) 50%, transparent 55%);
-    background-size: 15px 15px;
-    opacity: 0.3;
-}
-
-.chip-1 {
-    top: 10%;
-    left: 5%;
-}
-
-.chip-2 {
-    top: 20%;
-    right: 10%;
-}
-
-.chip-3 {
-    bottom: 15%;
-    left: 15%;
-}
-
-.chip-4 {
-    bottom: 25%;
-    right: 5%;
-}
-
-/* Responsive Design */
-@media (min-width: 768px) {
-    .about-content {
-        grid-template-columns: 1fr 2fr;
-        gap: 50px;
-    }
-    
-    .about-text {
-        text-align: left;
-    }
-    
-    .skills {
-        justify-content: flex-start;
-    }
-    
-    .contact-content {
-        grid-template-columns: 1fr 1fr;
-        gap: 50px;
-    }
-    
-    .contact-info {
-        order: 1;
-    }
-    
-    .contact-form {
-        order: 2;
-    }
-    
-    .chip {
-        width: 80px;
-        height: 80px;
-        background-size: 20px 20px;
-    }
-    
-    .projects-grid,
-    .looker-reports {
-        grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
-    }
-    
-    .project-info h3,
-    .report-info h3 {
-        font-size: clamp(1.3rem, 3vw, 1.5rem);
-    }
-}
-
+/* Responsive fixes */
 @media (max-width: 768px) {
-    .hamburger {
-        display: block;
-    }
-
-    .nav-links {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100vh;
-        background: rgba(10, 10, 26, 0.98);
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding-top: 80px;
-        transition: left 0.3s ease;
-        gap: 30px;
-        z-index: 1000;
-    }
-
-    .nav-links.active {
-        left: 0;
-    }
-
-    .nav-links li {
-        margin: 0;
-    }
-
-    .nav-links a {
-        font-size: 1.2rem;
-        padding: 10px 20px;
-    }
-    
     .project-card,
     .report-card {
-        height: min(360px, 70vw);
-        max-width: min(350px, 90vw);
+        min-height: 350px;
     }
     
     .project-img,
     .report-preview {
-        height: 40%;
-        min-height: 140px;
+        height: 160px;
+        min-height: 160px;
     }
     
     .project-info,
     .report-info {
-        height: 60%;
+        padding: 20px;
         min-height: 190px;
-        padding: 18px;
     }
     
     .project-info h3,
     .report-info h3 {
         font-size: 1.3rem;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
     }
     
     .project-info p,
     .report-info p {
         font-size: 0.95rem;
-        -webkit-line-clamp: 3;
+        min-height: 70px;
+        margin-bottom: 15px;
     }
     
-    /* Fixed: Mobile button alignment */
     .project-info .btn,
     .report-overlay .btn {
         width: 100%;
         text-align: center;
-        margin-top: 15px;
-    }
-    
-    .contact-item {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-    }
-    
-    .contact-icon {
-        margin-bottom: 10px;
-    }
-    
-    .projects-grid,
-    .looker-reports {
-        grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
     }
 }
 
 @media (max-width: 480px) {
-    .container {
-        padding: 0 15px;
-    }
-    
-    .hero-content {
-        padding: 10px;
-    }
-    
-    .hero-content h1 {
-        font-size: clamp(1.8rem, 6vw, 2.5rem);
-    }
-    
-    .section-title h2 {
-        font-size: clamp(1.5rem, 4vw, 1.8rem);
-    }
-    
-    .about-text h3 {
-        font-size: clamp(1.3rem, 3vw, 1.5rem);
-    }
-    
     .project-card,
     .report-card {
-        height: min(340px, 80vw);
-        max-width: min(320px, 85vw);
+        min-height: 320px;
     }
     
-    /* Reduced hover effect on mobile */
-    .project-card:hover,
-    .report-card:hover {
-        transform: scale(1.03);
+    .project-img,
+    .report-preview {
+        height: 140px;
+        min-height: 140px;
     }
     
     .project-info,
     .report-info {
         padding: 15px;
+        min-height: 180px;
     }
     
     .project-info h3,
     .report-info h3 {
         font-size: 1.2rem;
-        margin-bottom: 8px;
-        min-height: 2.4em;
+        margin-bottom: 10px;
     }
     
     .project-info p,
     .report-info p {
         font-size: 0.9rem;
+        min-height: 60px;
         margin-bottom: 12px;
-        -webkit-line-clamp: 3;
-    }
-    
-    .project-tag,
-    .report-tag {
-        padding: 5px 10px;
-        font-size: 0.8rem;
-    }
-    
-    .project-info .btn,
-    .report-overlay .btn {
-        font-size: 0.9rem;
-        padding: 8px 16px;
-        width: 100%;
-    }
-    
-    .contact-form {
-        padding: 20px;
-    }
-    
-    .form-control {
-        padding: 10px;
-    }
-    
-    .btn {
-        width: 100%;
-        text-align: center;
     }
     
     .projects-grid,
     .looker-reports {
         grid-template-columns: 1fr;
-        max-width: 350px;
+        max-width: 400px;
         margin: 0 auto;
-    }
-}
-
-/* Touch device optimizations */
-@media (hover: none) and (pointer: coarse) {
-    .skill:hover,
-    .project-card:hover,
-    .report-card:hover,
-    .social-links a:hover,
-    .btn:hover {
-        transform: none;
-    }
-    
-    .nav-links a:hover::after {
-        width: 0;
-    }
-    
-    .project-card:hover .project-img img,
-    .report-card:hover .report-image img {
-        transform: none;
-    }
-}
-
-/* Print styles */
-@media print {
-    .hamburger,
-    .nav-links,
-    .btn,
-    .contact-form,
-    .social-links {
-        display: none !important;
-    }
-    
-    body {
-        background: white !important;
-        color: black !important;
-    }
-    
-    .section {
-        page-break-inside: avoid;
-    }
-}
-
-/* Ensure consistent heights on all screens */
-@media (min-width: 1024px) {
-    .project-card,
-    .report-card {
-        height: 380px;
-        max-width: 380px;
-    }
-    
-    .project-info h3,
-    .report-info h3 {
-        font-size: 1.4rem;
-    }
-    
-    .project-info p,
-    .report-info p {
-        font-size: 1.05rem;
     }
 }
 
 @media (min-width: 1200px) {
     .project-card,
     .report-card {
-        height: 400px;
-        max-width: 400px;
+        min-height: 400px;
     }
     
-    .projects-grid,
-    .looker-reports {
-        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-    }
-    
-    .project-info h3,
-    .report-info h3 {
-        font-size: 1.5rem;
+    .project-img,
+    .report-preview {
+        height: 200px;
+        min-height: 200px;
     }
     
     .project-info p,
     .report-info p {
-        font-size: 1.1rem;
-        -webkit-line-clamp: 5;
+        font-size: 1.05rem;
+        min-height: 90px;
     }
 }
 
-/* Fix for titles that are too long */
-.project-info h3 br,
-.report-info h3 br {
+/* Ensure consistent card heights in grid */
+.projects-grid > *,
+.looker-reports > * {
+    height: 100%;
+}
+
+/* Fix for empty space in cards */
+.project-info:empty::after,
+.report-info:empty::after {
+    content: '';
     display: none;
 }
 
-.project-info h3::after,
-.report-info h3::after {
-    content: '';
-    display: inline-block;
-    width: 0;
-    height: 0;
+/* Better text wrapping */
+.project-info h3 br,
+.report-info h3 br {
+    display: inline;
 }
 
-/* Better spacing for mobile */
-@media (max-width: 768px) {
-    .project-info,
-    .report-info {
-        gap: 10px;
-    }
-    
-    .project-info h3,
-    .report-info h3 {
-        margin-bottom: 8px;
-    }
-    
-    .project-info p,
-    .report-info p {
-        margin-bottom: 10px;
-    }
-    
-    .project-tags,
-    .report-tags {
-        margin-top: 5px;
-        margin-bottom: 10px;
-    }
-}
-
-/* Desktop button alignment fix */
-@media (min-width: 769px) {
-    .project-info .btn,
-    .report-overlay .btn {
-        align-self: flex-start;
-        width: auto;
-        min-width: 120px;
-    }
-}
-
-/* Card stacking context fix */
+/* Smooth animations */
 .project-card,
 .report-card {
-    will-change: transform;
+    will-change: transform, box-shadow;
 }
 
-/* Smooth transition for all interactive elements */
-.project-card,
-.report-card,
-.btn,
-.social-links a,
-.nav-links a {
-    will-change: transform;
+/* Fix for hover effects on mobile */
+@media (hover: none) and (pointer: coarse) {
+    .project-card:hover,
+    .report-card:hover {
+        transform: none;
+    }
 }

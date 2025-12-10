@@ -479,8 +479,8 @@ header {
 }
 
 .project-img {
-    height: 45%;
-    min-height: 160px;
+    height: 40%;
+    min-height: 140px;
     overflow: hidden;
     position: relative;
     flex-shrink: 0;
@@ -514,30 +514,36 @@ header {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    height: 55%;
-    min-height: 190px;
+    height: 60%;
+    min-height: 210px;
 }
 
 .project-info h3 {
     font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.1rem, 3vw, 1.3rem);
-    margin-bottom: 10px;
+    font-size: clamp(1.2rem, 3vw, 1.4rem);
+    margin-bottom: 12px;
     color: var(--primary);
     line-height: 1.3;
-    max-height: 3.6em;
+    min-height: 2.6em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 0 5px rgba(0, 247, 255, 0.5);
 }
 
 .project-info p {
     margin-bottom: 15px;
-    font-size: clamp(0.85rem, 2vw, 0.95rem);
+    font-size: clamp(0.9rem, 2vw, 1rem);
     color: var(--light);
     line-height: 1.5;
     flex-grow: 1;
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
+    opacity: 0.9;
 }
 
 .project-tags {
@@ -546,23 +552,28 @@ header {
     gap: 8px;
     margin-bottom: 15px;
     min-height: 30px;
+    align-items: center;
 }
 
 .project-tag {
-    padding: 5px 10px;
-    background: rgba(123, 0, 255, 0.2);
-    border: 1px solid rgba(123, 0, 255, 0.5);
+    padding: 6px 12px;
+    background: rgba(123, 0, 255, 0.25);
+    border: 1px solid rgba(123, 0, 255, 0.6);
     border-radius: 3px;
-    font-size: clamp(0.7rem, 2vw, 0.8rem);
+    font-size: clamp(0.75rem, 2vw, 0.85rem);
     color: var(--light);
     white-space: nowrap;
-    max-height: 28px;
+    max-height: 32px;
+    font-weight: 500;
+    text-shadow: 0 0 3px rgba(123, 0, 255, 0.5);
 }
 
 .project-info .btn {
     margin-top: auto;
     width: fit-content;
     align-self: flex-start;
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
+    padding: 10px 20px;
 }
 
 /* Analysis Section */
@@ -612,8 +623,8 @@ header {
 
 .report-preview {
     position: relative;
-    height: 45%;
-    min-height: 160px;
+    height: 40%;
+    min-height: 140px;
     overflow: hidden;
     flex-shrink: 0;
 }
@@ -657,30 +668,36 @@ header {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    height: 55%;
-    min-height: 190px;
+    height: 60%;
+    min-height: 210px;
 }
 
 .report-info h3 {
     font-family: 'Orbitron', sans-serif;
-    font-size: clamp(1.1rem, 3vw, 1.3rem);
-    margin-bottom: 10px;
+    font-size: clamp(1.2rem, 3vw, 1.4rem);
+    margin-bottom: 12px;
     color: var(--primary);
     line-height: 1.3;
-    max-height: 3.6em;
+    min-height: 2.6em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 0 5px rgba(0, 247, 255, 0.5);
 }
 
 .report-info p {
     margin-bottom: 15px;
-    font-size: clamp(0.85rem, 2vw, 0.95rem);
+    font-size: clamp(0.9rem, 2vw, 1rem);
     color: var(--light);
     line-height: 1.5;
     flex-grow: 1;
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
+    opacity: 0.9;
 }
 
 .report-tags {
@@ -689,21 +706,26 @@ header {
     gap: 8px;
     margin-top: auto;
     min-height: 30px;
+    align-items: center;
 }
 
 .report-tag {
-    padding: 5px 10px;
-    background: rgba(123, 0, 255, 0.2);
-    border: 1px solid rgba(123, 0, 255, 0.5);
+    padding: 6px 12px;
+    background: rgba(123, 0, 255, 0.25);
+    border: 1px solid rgba(123, 0, 255, 0.6);
     border-radius: 3px;
-    font-size: clamp(0.7rem, 2vw, 0.8rem);
+    font-size: clamp(0.75rem, 2vw, 0.85rem);
     color: var(--light);
     white-space: nowrap;
-    max-height: 28px;
+    max-height: 32px;
+    font-weight: 500;
+    text-shadow: 0 0 3px rgba(123, 0, 255, 0.5);
 }
 
 .report-overlay .btn {
     z-index: 2;
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
+    padding: 10px 20px;
 }
 
 .analysis-cta {
@@ -938,6 +960,11 @@ footer {
     .looker-reports {
         grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
     }
+    
+    .project-info h3,
+    .report-info h3 {
+        font-size: clamp(1.3rem, 3vw, 1.5rem);
+    }
 }
 
 @media (max-width: 768px) {
@@ -976,21 +1003,33 @@ footer {
     
     .project-card,
     .report-card {
-        height: min(350px, 70vw);
+        height: min(360px, 70vw);
         max-width: min(350px, 90vw);
     }
     
     .project-img,
     .report-preview {
-        height: 45%;
+        height: 40%;
         min-height: 140px;
     }
     
     .project-info,
     .report-info {
-        height: 55%;
-        min-height: 160px;
-        padding: 15px;
+        height: 60%;
+        min-height: 190px;
+        padding: 18px;
+    }
+    
+    .project-info h3,
+    .report-info h3 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+    
+    .project-info p,
+    .report-info p {
+        font-size: 0.95rem;
+        -webkit-line-clamp: 3;
     }
     
     .contact-item {
@@ -1005,7 +1044,7 @@ footer {
     
     .projects-grid,
     .looker-reports {
-        grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
     }
 }
 
@@ -1032,32 +1071,39 @@ footer {
     
     .project-card,
     .report-card {
-        height: min(320px, 80vw);
+        height: min(340px, 80vw);
         max-width: min(320px, 85vw);
     }
     
     .project-info,
     .report-info {
-        padding: 12px;
+        padding: 15px;
     }
     
     .project-info h3,
     .report-info h3 {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         margin-bottom: 8px;
+        min-height: 2.4em;
     }
     
     .project-info p,
     .report-info p {
-        font-size: 0.85rem;
-        margin-bottom: 10px;
-        -webkit-line-clamp: 2;
+        font-size: 0.9rem;
+        margin-bottom: 12px;
+        -webkit-line-clamp: 3;
     }
     
     .project-tag,
     .report-tag {
-        padding: 4px 8px;
-        font-size: 0.75rem;
+        padding: 5px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .project-info .btn,
+    .report-overlay .btn {
+        font-size: 0.9rem;
+        padding: 8px 16px;
     }
     
     .contact-form {
@@ -1094,6 +1140,11 @@ footer {
     .nav-links a:hover::after {
         width: 0;
     }
+    
+    .project-card:hover .project-img img,
+    .report-card:hover .report-image img {
+        transform: none;
+    }
 }
 
 /* Print styles */
@@ -1120,20 +1171,86 @@ footer {
 @media (min-width: 1024px) {
     .project-card,
     .report-card {
-        height: 350px;
-        max-width: 350px;
+        height: 380px;
+        max-width: 380px;
+    }
+    
+    .project-info h3,
+    .report-info h3 {
+        font-size: 1.4rem;
+    }
+    
+    .project-info p,
+    .report-info p {
+        font-size: 1.05rem;
     }
 }
 
 @media (min-width: 1200px) {
     .project-card,
     .report-card {
-        height: 380px;
-        max-width: 380px;
+        height: 400px;
+        max-width: 400px;
     }
     
     .projects-grid,
     .looker-reports {
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    }
+    
+    .project-info h3,
+    .report-info h3 {
+        font-size: 1.5rem;
+    }
+    
+    .project-info p,
+    .report-info p {
+        font-size: 1.1rem;
+        -webkit-line-clamp: 5;
+    }
+}
+
+/* Fix for titles that are too long */
+.project-info h3 br,
+.report-info h3 br {
+    display: none;
+}
+
+.project-info h3::after,
+.report-info h3::after {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+}
+
+/* Ensure button doesn't overlap with text */
+.project-info .btn,
+.report-overlay .btn {
+    margin-top: 15px;
+    align-self: flex-start;
+}
+
+/* Better spacing for mobile */
+@media (max-width: 768px) {
+    .project-info,
+    .report-info {
+        gap: 10px;
+    }
+    
+    .project-info h3,
+    .report-info h3 {
+        margin-bottom: 8px;
+    }
+    
+    .project-info p,
+    .report-info p {
+        margin-bottom: 10px;
+    }
+    
+    .project-tags,
+    .report-tags {
+        margin-top: 5px;
+        margin-bottom: 10px;
     }
 }

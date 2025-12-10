@@ -7,6 +7,7 @@
     --light: #e0e0ff;
     --card-bg: rgba(16, 16, 32, 0.8);
     --glow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+    --square-size: min(350px, 100%);
 }
 
 * {
@@ -433,9 +434,10 @@ header {
 
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(var(--square-size), 1fr));
     gap: 30px;
     padding: 0 10px;
+    justify-content: center;
 }
 
 .project-card {
@@ -445,7 +447,10 @@ header {
     overflow: hidden;
     transition: all 0.3s ease;
     position: relative;
-    height: 100%;
+    height: var(--square-size);
+    width: 100%;
+    max-width: var(--square-size);
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
 }
@@ -474,7 +479,8 @@ header {
 }
 
 .project-img {
-    height: 200px;
+    height: 45%;
+    min-height: 160px;
     overflow: hidden;
     position: relative;
     flex-shrink: 0;
@@ -508,6 +514,8 @@ header {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    height: 55%;
+    min-height: 190px;
 }
 
 .project-info h3 {
@@ -515,6 +523,9 @@ header {
     font-size: clamp(1.1rem, 3vw, 1.3rem);
     margin-bottom: 10px;
     color: var(--primary);
+    line-height: 1.3;
+    max-height: 3.6em;
+    overflow: hidden;
 }
 
 .project-info p {
@@ -523,6 +534,10 @@ header {
     color: var(--light);
     line-height: 1.5;
     flex-grow: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 
 .project-tags {
@@ -530,6 +545,7 @@ header {
     flex-wrap: wrap;
     gap: 8px;
     margin-bottom: 15px;
+    min-height: 30px;
 }
 
 .project-tag {
@@ -540,6 +556,13 @@ header {
     font-size: clamp(0.7rem, 2vw, 0.8rem);
     color: var(--light);
     white-space: nowrap;
+    max-height: 28px;
+}
+
+.project-info .btn {
+    margin-top: auto;
+    width: fit-content;
+    align-self: flex-start;
 }
 
 /* Analysis Section */
@@ -559,10 +582,11 @@ header {
 
 .looker-reports {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(var(--square-size), 1fr));
     gap: 30px;
     margin-bottom: clamp(30px, 5vw, 50px);
     padding: 0 10px;
+    justify-content: center;
 }
 
 .report-card {
@@ -572,7 +596,10 @@ header {
     overflow: hidden;
     transition: all 0.3s ease;
     position: relative;
-    height: 100%;
+    height: var(--square-size);
+    width: 100%;
+    max-width: var(--square-size);
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
 }
@@ -585,7 +612,8 @@ header {
 
 .report-preview {
     position: relative;
-    height: 200px;
+    height: 45%;
+    min-height: 160px;
     overflow: hidden;
     flex-shrink: 0;
 }
@@ -629,6 +657,8 @@ header {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    height: 55%;
+    min-height: 190px;
 }
 
 .report-info h3 {
@@ -636,6 +666,9 @@ header {
     font-size: clamp(1.1rem, 3vw, 1.3rem);
     margin-bottom: 10px;
     color: var(--primary);
+    line-height: 1.3;
+    max-height: 3.6em;
+    overflow: hidden;
 }
 
 .report-info p {
@@ -644,12 +677,18 @@ header {
     color: var(--light);
     line-height: 1.5;
     flex-grow: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 
 .report-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    margin-top: auto;
+    min-height: 30px;
 }
 
 .report-tag {
@@ -660,6 +699,11 @@ header {
     font-size: clamp(0.7rem, 2vw, 0.8rem);
     color: var(--light);
     white-space: nowrap;
+    max-height: 28px;
+}
+
+.report-overlay .btn {
+    z-index: 2;
 }
 
 .analysis-cta {
@@ -889,6 +933,11 @@ footer {
         height: 80px;
         background-size: 20px 20px;
     }
+    
+    .projects-grid,
+    .looker-reports {
+        grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+    }
 }
 
 @media (max-width: 768px) {
@@ -925,9 +974,23 @@ footer {
         padding: 10px 20px;
     }
     
+    .project-card,
+    .report-card {
+        height: min(350px, 70vw);
+        max-width: min(350px, 90vw);
+    }
+    
     .project-img,
     .report-preview {
-        height: 180px;
+        height: 45%;
+        min-height: 140px;
+    }
+    
+    .project-info,
+    .report-info {
+        height: 55%;
+        min-height: 160px;
+        padding: 15px;
     }
     
     .contact-item {
@@ -938,6 +1001,11 @@ footer {
     
     .contact-icon {
         margin-bottom: 10px;
+    }
+    
+    .projects-grid,
+    .looker-reports {
+        grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
     }
 }
 
@@ -962,9 +1030,34 @@ footer {
         font-size: clamp(1.3rem, 3vw, 1.5rem);
     }
     
+    .project-card,
+    .report-card {
+        height: min(320px, 80vw);
+        max-width: min(320px, 85vw);
+    }
+    
     .project-info,
     .report-info {
-        padding: 15px;
+        padding: 12px;
+    }
+    
+    .project-info h3,
+    .report-info h3 {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+    }
+    
+    .project-info p,
+    .report-info p {
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+        -webkit-line-clamp: 2;
+    }
+    
+    .project-tag,
+    .report-tag {
+        padding: 4px 8px;
+        font-size: 0.75rem;
     }
     
     .contact-form {
@@ -978,6 +1071,13 @@ footer {
     .btn {
         width: 100%;
         text-align: center;
+    }
+    
+    .projects-grid,
+    .looker-reports {
+        grid-template-columns: 1fr;
+        max-width: 350px;
+        margin: 0 auto;
     }
 }
 
@@ -1013,5 +1113,27 @@ footer {
     
     .section {
         page-break-inside: avoid;
+    }
+}
+
+/* Ensure consistent heights on all screens */
+@media (min-width: 1024px) {
+    .project-card,
+    .report-card {
+        height: 350px;
+        max-width: 350px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .project-card,
+    .report-card {
+        height: 380px;
+        max-width: 380px;
+    }
+    
+    .projects-grid,
+    .looker-reports {
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     }
 }
